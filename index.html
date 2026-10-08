@@ -19,7 +19,39 @@
 <meta name="twitter:title" content="RunLedger — The black box recorder for AI agents">
 <meta name="twitter:description" content="Shareable receipts, a real-time guard and human approvals for AI agent runs. Open-source CLI, built for Claude Code first.">
 <meta name="twitter:image" content="https://runledger.site/og-image.png">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234fe0b0'/%3E%3Cpath d='M10 10h12M10 15h12M10 20h7' stroke='%230a0b0d' stroke-width='2.5' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='21' r='2.2' fill='%230a0b0d'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "RunLedger",
+      "description": "Receipts, cost and a real-time guard for AI coding agents. Open-source CLI that turns Claude Code, Codex CLI and Aider sessions into shareable receipts with a risk score.",
+      "url": "https://runledger.site/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Linux, macOS, Windows",
+      "softwareVersion": "0.2.0",
+      "license": "https://www.apache.org/licenses/LICENSE-2.0",
+      "codeRepository": "https://github.com/kodji7202-code/runledger",
+      "downloadUrl": "https://pypi.org/project/runledger-ai/",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@id": "https://runledger.site/#org" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://runledger.site/#org",
+      "name": "RunLedger",
+      "url": "https://runledger.site/",
+      "logo": "https://runledger.site/apple-touch-icon.png",
+      "email": "hello@runledger.site",
+      "founder": { "@type": "Person", "name": "Claudiu Cojocaru" },
+      "sameAs": ["https://github.com/kodji7202-code/runledger"]
+    }
+  ]
+}
+</script>
 <script>
 /* Runs before first paint. "js" enables JS-only layout; "motion" enables animation
    only when JS, IntersectionObserver and motion are all available. */
@@ -33,10 +65,16 @@
   if (mq && !mq("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) d.classList.add("motion");
 })();
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<link rel="preload" href="/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script data-goatcounter="https://kodji7209.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <style>
+/* ---------- Fonts: Geist and Geist Mono (SIL OFL 1.1, see /fonts/OFL.txt), self-hosted so no visitor data goes to a font CDN. ---------- */
+@font-face { font-family: "Geist"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/geist-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Geist"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/geist-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Geist Mono"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/geist-mono-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Geist Mono"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/geist-mono-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
 /* ---------- Tokens. Colours use light-dark(): color-scheme follows the system or data-theme. ---------- */
 :root {
   color-scheme: light dark;
@@ -76,7 +114,7 @@ h1, h2, h3, h4, p, ul, ol, figure, dl, dd { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 hr { margin: 0; border: 0; }
 a { color: inherit; }
-button, input, select { font: inherit; color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
 h1, h2 { text-wrap: balance; }
 p { text-wrap: pretty; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
@@ -140,6 +178,9 @@ h3 { font-weight: 600; font-size: 1.125rem; line-height: 1.3; letter-spacing: -.
   background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease);
 }
 .nav a:hover, .nav a[aria-current="true"] { color: var(--fg); }
+.hdr__gh { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 0 4px; font-size: 14.5px; color: var(--fg-2); text-decoration: none; transition: color .2s var(--ease); }
+.hdr__gh:hover { color: var(--fg); }
+.hdr__gh svg { width: 17px; height: 17px; }
 .nav a:hover::after, .nav a[aria-current="true"]::after { transform: scaleX(1); }
 .icon-btn {
   flex: none; width: 44px; height: 44px; display: grid; place-items: center; padding: 0;
@@ -176,6 +217,7 @@ h3 { font-weight: 600; font-size: 1.125rem; line-height: 1.3; letter-spacing: -.
   .nav { flex-direction: column; align-items: stretch; }
   .nav a { min-height: 48px; font-size: 17px; padding: 0 4px; }
   .nav a::after { display: none; }
+  .hdr__gh { min-height: 48px; font-size: 17px; }
   .hdr__cta { display: inline-flex; margin-top: 10px; min-height: 48px; }
   .icon-btn { margin-left: auto; }
 }
@@ -221,6 +263,8 @@ html:not(.js) .hdr__panel { display: flex; }
 .lede { max-width: 34em; font-size: clamp(1.0625rem, 1rem + .4vw, 1.25rem); line-height: 1.5; color: var(--fg-2); }
 .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
 .hero__fine { font: 400 13px/1.4 var(--mono); color: var(--fg-2); }
+.hero__fine a, .chip a { color: inherit; text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px; }
+.hero__fine a:hover, .chip a:hover { color: var(--fg); }
 
 /* Receipt */
 .receipt { position: relative; isolation: isolate; width: 100%; max-width: 500px; justify-self: end; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--raise); box-shadow: var(--shadow); }
@@ -332,6 +376,13 @@ html:not(.js) .hdr__panel { display: flex; }
 .card .ico { display: grid; place-items: center; width: 38px; height: 38px; margin-bottom: 18px; border-radius: 10px; background: var(--accent-wash); color: var(--accent); }
 .card .ico svg { width: 19px; height: 19px; }
 .card p { margin-top: 8px; font-size: 15px; line-height: 1.5; color: var(--fg-2); }
+.card { display: flex; flex-direction: column; }
+.card .ftag { align-self: flex-start; margin-top: auto; padding-top: 16px; }
+.ftag span { display: inline-block; padding: 3px 9px; border-radius: 999px; font: 500 11.5px/1.4 var(--mono); }
+.ftag--cli span { background: var(--accent-wash); color: var(--accent); }
+.ftag--server span { background: var(--raise); border: 1px solid var(--line-2); color: var(--fg-2); }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: -16px 0 22px; font-size: 14px; color: var(--fg-2); }
+.legend .ftag { display: inline-flex; align-items: center; gap: 8px; }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) { .card:hover { translate: 0 -3px; } }
 .roadmap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 15px; }
 .roadmap__t { font: 500 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--fg-2); }
@@ -382,6 +433,8 @@ html:not(.js) .hdr__panel { display: flex; }
 .pr__body { display: grid; gap: 14px; padding: 18px 18px 20px; }
 .pr__title { font-size: 17px; font-weight: 600; }
 .risk-badge { display: inline-flex; align-items: center; gap: 8px; width: fit-content; padding: 6px 12px; border: 1px solid var(--amber); border-radius: 999px; background: var(--amber-wash); color: var(--amber); font: 600 13px/1 var(--sans); }
+.risk-badge.is-high { border-color: var(--red); background: var(--red-wash); color: var(--red); }
+.ring__f.is-high { stroke: var(--red); }
 .pr__list { display: grid; gap: 8px; font-size: 14px; }
 .pr__list li { display: flex; gap: 10px; }
 .pr__list .mk { flex: none; width: 1.1em; text-align: center; font-weight: 600; }
@@ -392,13 +445,30 @@ html:not(.js) .hdr__panel { display: flex; }
 
 /* ---------- Install ---------- */
 .install { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px 56px; align-items: center; padding: clamp(28px, 4.5vw, 52px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--soft); }
-.cmds { display: grid; gap: 12px; min-width: 0; }
 .cmd { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 8px 8px 8px 16px; border: 1px solid var(--line-2); border-radius: var(--r-s); background: var(--raise); }
 .cmd code { flex: 1; min-width: 0; overflow-wrap: anywhere; font: 400 15px/1.5 var(--mono); }
 .copy { flex: none; min-width: 84px; min-height: 40px; padding: 0 14px; border: 1px solid var(--line-2); border-radius: 8px; background: var(--bg); color: var(--fg); font: 500 14px/1 var(--sans); cursor: pointer; transition: background-color .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease); }
 .copy:hover { background: var(--hover); }
 .copy.is-done { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
+.install__steps { display: grid; gap: 20px; min-width: 0; }
+.install__step { display: grid; gap: 10px; min-width: 0; }
+.install__label { display: flex; align-items: baseline; gap: 10px; font-size: 15px; font-weight: 600; }
+.install__label span { font: 500 12px/1 var(--mono); color: var(--accent); }
+.install__alt { font-size: 13.5px; color: var(--fg-2); }
+.install__alt code, .install__meta code { font: 400 13px/1.4 var(--mono); padding: 1px 6px; border-radius: 6px; background: var(--raise); }
+.install__meta { display: grid; gap: 8px; margin-top: 22px; font-size: 14.5px; color: var(--fg-2); }
+.install__meta a, .out__note a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px; }
 @media (max-width: 860px) { .install { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- Real output ---------- */
+.out { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 28px; }
+.out .term { max-width: none; }
+.out pre { margin: 0; padding: 16px 18px 18px; overflow-x: auto; font: 400 13px/1.6 var(--mono); white-space: pre; }
+.out pre .c { color: var(--fg-2); }
+.out pre .d { color: var(--red); }
+.out pre .a { color: var(--amber); }
+.out__note { margin-top: 14px; font-size: 14px; color: var(--fg-2); }
+@media (max-width: 860px) { .out { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Pricing ---------- */
 .early { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 6px 12px; border-radius: 999px; background: var(--accent-wash); color: var(--accent); font: 500 13px/1.2 var(--mono); }
@@ -432,6 +502,8 @@ html:not(.js) .hdr__panel { display: flex; }
 .faq details::details-content { block-size: 0; overflow: hidden; transition: block-size .35s var(--ease), content-visibility .35s allow-discrete; }
 .faq details[open]::details-content { block-size: auto; }
 .faq__a { padding: 0 40px 22px 0; font-size: 16px; line-height: 1.6; color: var(--fg-2); }
+.faq__a a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px; }
+.faq__a code, .card p code { font: 400 .875em/1.4 var(--mono); padding: 1px 5px; border-radius: 5px; background: var(--hover); overflow-wrap: anywhere; }
 
 /* ---------- Early access ---------- */
 .signup { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px 56px; align-items: start; padding: clamp(28px, 4.5vw, 52px); overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--soft); }
@@ -449,10 +521,15 @@ html:not(.js) .hdr__panel { display: flex; }
 .input:focus, .select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-wash); }
 .input:focus-visible, .select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .input[aria-invalid="true"] { border-color: var(--red); }
+.input--area { min-height: 96px; padding: 12px 14px; line-height: 1.5; resize: vertical; }
 .form .btn { min-height: 50px; }
 .form__msg { min-height: 1.5em; font-size: 15px; line-height: 1.5; }
 .form__msg.is-ok { color: var(--accent); }
 .form__msg.is-err { color: var(--red); }
+.form .fine + .fine { margin-top: -8px; }
+.where p + p { margin-top: 10px; }
+.where a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px; }
+.pr__note { font-size: 13px; color: var(--fg-2); margin-top: 12px; }
 .where { margin-top: clamp(28px, 4vw, 40px); max-width: 62ch; padding: 20px 22px; border: 1.5px dashed var(--line-2); border-radius: var(--r-m); }
 .where h3 { margin-bottom: 6px; font-size: 1.0625rem; }
 .where p { font-size: 15px; color: var(--fg-2); }
@@ -464,6 +541,7 @@ html:not(.js) .hdr__panel { display: flex; }
 .foot__in { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto; gap: 24px 40px; align-items: start; }
 .foot__who { display: grid; gap: 10px; }
 .foot__who .fine { max-width: 60ch; }
+.foot__cols { display: grid; gap: 14px; }
 .foot__nav { display: flex; flex-wrap: wrap; gap: 4px 16px; }
 .foot__nav a { display: inline-flex; align-items: center; min-height: 36px; font-size: 14px; color: var(--fg-2); text-decoration: none; transition: color .2s var(--ease); }
 .foot__nav a:hover { color: var(--fg); }
@@ -496,6 +574,7 @@ html:not(.js) .hdr__panel { display: flex; }
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </nav>
+      <a class="hdr__gh" href="https://github.com/kodji7202-code/runledger" data-goatcounter-click="out-github-header"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
       <a class="btn btn--primary btn--sm hdr__cta" href="#early-access">Get early access</a>
     </div>
     <button class="icon-btn" id="theme-btn" type="button" data-mode="light" aria-label="Switch to dark theme">
@@ -515,14 +594,14 @@ html:not(.js) .hdr__panel { display: flex; }
     <div class="hero__bg" aria-hidden="true"></div>
     <div class="wrap hero__in">
       <div class="hero__copy">
-        <p class="chip"><span class="live" aria-hidden="true"></span>Early stage · Building in public</p>
+        <p class="chip"><span class="live" aria-hidden="true"></span>Early stage · <a href="https://github.com/kodji7202-code/runledger/blob/main/CHANGELOG.md" data-goatcounter-click="out-changelog-hero">Building in public</a></p>
         <h1 id="hero-title">Every agent run, <span class="accent">on the record.</span></h1>
-        <p class="lede">RunLedger is a black box recorder for AI agents. It turns each run into a shareable receipt: what changed, what ran, what it cost, and what looked risky.</p>
+        <p class="lede">RunLedger is a black box recorder for AI coding agents. It turns each run into a shareable receipt: what changed, what ran, what it cost, and what looked risky.</p>
         <div class="ctas">
           <a class="btn btn--primary btn--lg" href="#early-access">Get early access <span class="arr" aria-hidden="true">→</span></a>
           <a class="btn btn--lg" href="#install">Install the free CLI</a>
         </div>
-        <p class="hero__fine">Open-source · no dependencies · works offline</p>
+        <p class="hero__fine">Open-source (Apache-2.0) · no dependencies · works offline<br><a href="https://github.com/kodji7202-code/runledger" data-goatcounter-click="out-github-hero">Source on GitHub</a> · <a href="https://pypi.org/project/runledger-ai/" data-goatcounter-click="out-pypi-hero">PyPI</a> · <a href="/sample-receipt.html">See a real receipt</a></p>
       </div>
 
       <figure class="receipt" id="receipt" aria-labelledby="receipt-cap">
@@ -543,16 +622,16 @@ html:not(.js) .hdr__panel { display: flex; }
             <li class="rl" data-wait="250"><span class="r-n">1</span><span class="r-txt">Read 6 files to understand retry logic</span><span class="r-meta"><span class="r-tag">Haiku</span><span>3.1k tokens</span><span class="r-cost">$0.004</span></span></li>
             <li class="rl" data-wait="420"><span class="r-n">2</span><span class="r-txt">Edited src/payments/retry.ts: added exponential backoff (+38 −12)</span><span class="r-meta"><span class="r-tag">Sonnet</span><span>12.4k tokens</span><span class="r-cost">$0.061</span></span></li>
             <li class="rl" data-wait="420"><span class="r-n">3</span><span class="r-txt">Ran npm test: 142 passed</span><span class="r-meta"><span class="r-tag">Haiku</span><span>1.2k tokens</span><span class="r-cost">$0.002</span></span></li>
-            <li class="rl rl--amber" data-wait="520" data-flag><span class="r-n">4</span><span class="r-txt">Deleted tests/payments/retry.legacy.spec.ts</span><span class="r-meta"><span class="r-flag amber">▲ Flagged: test deleted</span></span></li>
+            <li class="rl rl--red" data-wait="520" data-flag><span class="r-n">4</span><span class="r-txt">Deleted tests/payments/retry.legacy.spec.ts</span><span class="r-meta"><span class="r-flag red">▲ Flagged: test deleted</span></span></li>
             <li class="rl rl--red" data-wait="600" data-flag><span class="r-n">5</span><span class="r-txt">Read .env.local</span><span class="r-meta"><span class="r-flag red">● Flagged: secrets file</span></span></li>
           </ol>
           <div class="r-risk">
             <div class="rl r-score" data-wait="900" data-risk>
-              <svg class="ring" viewBox="0 0 36 36" aria-hidden="true"><circle class="ring__t" cx="18" cy="18" r="15.5"/><circle class="ring__f" id="ring" cx="18" cy="18" r="15.5" pathLength="100" stroke-dasharray="100" stroke-dashoffset="38"/></svg>
-              <p><span class="r-label">Risk score</span><span class="r-big"><span id="risk-num">62</span> / 100 · <span class="amber">Medium</span></span></p>
+              <svg class="ring" viewBox="0 0 36 36" aria-hidden="true"><circle class="ring__t" cx="18" cy="18" r="15.5"/><circle class="ring__f is-high" id="ring" cx="18" cy="18" r="15.5" pathLength="100" stroke-dasharray="100" stroke-dashoffset="40"/></svg>
+              <p><span class="r-label">Risk score</span><span class="r-big"><span id="risk-num">60</span> / 100 · <span class="red">High</span></span></p>
             </div>
             <ul class="r-reasons">
-              <li class="rl" data-wait="260"><span class="mk amber" aria-hidden="true">▲</span><span>Deleted a test file</span></li>
+              <li class="rl" data-wait="260"><span class="mk red" aria-hidden="true">▲</span><span>Deleted a test file</span></li>
               <li class="rl" data-wait="260"><span class="mk red" aria-hidden="true">●</span><span>Touched a secrets file (.env.local)</span></li>
               <li class="rl" data-wait="260"><span class="mk" aria-hidden="true" style="color: var(--accent)">✓</span><span>No actions outside the working folder</span></li>
             </ul>
@@ -578,7 +657,7 @@ html:not(.js) .hdr__panel { display: flex; }
         score = rc.querySelector(".r-score"), foot = rc.querySelector(".r-foot"),
         ring = document.getElementById("ring"), num = document.getElementById("risk-num"),
         btn = document.getElementById("replay");
-    var TARGET = 62, timers = [], started = false, inView = false;
+    var TARGET = 60, timers = [], started = false, inView = false;
     function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
     function clearAll() { timers.forEach(clearTimeout); timers = []; }
     function setScore(v) {
@@ -638,8 +717,8 @@ html:not(.js) .hdr__panel { display: flex; }
         <p class="sec-sub">Runs happen unsupervised, logs run to thousands of lines, and risk hides in the details. RunLedger records each run, explains it, and lets you decide.</p>
       </div>
       <ol class="steps rv" data-stagger>
-        <li class="step rv"><span class="step__n">01</span><h3>Record</h3><p>Every step is captured while the agent works: files read and written, commands, API calls, model and tokens. It stays on your machine.</p></li>
-        <li class="step rv"><span class="step__n">02</span><h3>Explain &amp; score</h3><p>Each step gets a plain-language summary. The run gets a risk score with the reasons behind it.</p></li>
+        <li class="step rv"><span class="step__n">01</span><h3>Record</h3><p>RunLedger reads the session log your agent already writes: files read and written, commands, web requests, model and tokens for every step. It stays on your machine.</p></li>
+        <li class="step rv"><span class="step__n">02</span><h3>Explain &amp; score</h3><p>Each step gets a plain-language summary. The run gets a rule-based risk score from 0 to 100, with the reason behind every point.</p></li>
         <li class="step rv"><span class="step__n">03</span><h3>Decide</h3><p>Share the receipt with a teammate, guard risky commands before they run, or send sensitive actions for approval.</p></li>
       </ol>
     </div>
@@ -651,7 +730,7 @@ html:not(.js) .hdr__panel { display: flex; }
       <div class="sec-head rv">
         <p class="eyebrow">Real-time Guard</p>
         <h2 id="guard-title">It stops risky commands before they run.</h2>
-        <p class="sec-sub">A Claude Code PreToolUse hook checks each action first. Dangerous commands are blocked, and sensitive ones wait for a human to approve them.</p>
+        <p class="sec-sub">A Claude Code PreToolUse hook checks each action first. Dangerous commands are blocked. Sensitive ones ask first, either in Claude Code or as an approval request on your team server.</p>
       </div>
       <figure class="term rv" id="guard-demo" aria-labelledby="guard-cap">
         <figcaption class="term__bar">
@@ -666,24 +745,62 @@ html:not(.js) .hdr__panel { display: flex; }
             <span class="g-ico">!</span>
             <div>
               <p class="g-title">Blocked by RunLedger guard</p>
-              <p>rm -rf targets ~/, outside the project folder. Command not run.</p>
+              <p>Recursive force delete (rm -rf), and ~/ is outside the project folder. Command not run.</p>
             </div>
           </div>
           <p class="tl tl--out gi on" id="g-o2">▸ Agent: retrying with an elevated install</p>
           <p class="tl gi on" id="g-c2"><span class="ps">$</span> <span class="typed">sudo npm i -g x</span></p>
           <div class="g-approval gi on is-approved" id="g-approval">
-            <div class="g-head"><span class="g-app">R</span><span><b>RunLedger</b> · approval request via Slack</span></div>
+            <div class="g-head"><span class="g-app">R</span><span><b>RunLedger dashboard</b> · approval request · Slack notified</span></div>
             <p class="g-msg">Claude Code wants to run <code>sudo npm i -g x</code>, a global install with sudo.</p>
             <div class="g-foot">
               <div class="g-btns"><span class="g-btn">Deny</span><span class="g-btn g-btn--ok">Approve</span></div>
-              <p class="g-state">✓ Approved by @you in Slack</p>
+              <p class="g-state">✓ Approved by @you on the dashboard</p>
             </div>
             <svg class="g-cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l13 8.5-5.6 1.2L15 20l-2.8 1.2L9.2 14 5 17z" fill="currentColor" stroke="var(--bg)" stroke-width="1.4" stroke-linejoin="round"/></svg>
           </div>
           <p class="tl tl--ok gi on" id="g-done">✓ added 1 package in 2s</p>
         </div>
-        <p class="sr-only">Simulated session. The agent runs rm -rf on the build folder and the home directory. RunLedger's guard blocks that command. The agent then runs a global npm install with sudo. RunLedger sends an approval request to Slack, the request is approved, and the install completes.</p>
+        <p class="sr-only">Simulated session. The agent runs rm -rf on the build folder and the home directory. RunLedger's guard blocks that command. The agent then runs a global npm install with sudo. RunLedger creates an approval request on the team dashboard and notifies Slack. The request is approved on the dashboard, and the install completes.</p>
       </figure>
+      <div class="out rv" data-stagger>
+        <figure class="term rv" aria-labelledby="out-guard-cap">
+          <figcaption class="term__bar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="term__cap" id="out-guard-cap">runledger guard test · real output</span>
+          </figcaption>
+          <pre><code><span class="c"># event: Bash, "rm -rf ./build ~/"</span>
+$ runledger guard test "$EVENT"
+  "permissionDecision": "<span class="d">deny</span>",
+  "permissionDecisionReason": "Blocked by RunLedger
+    guard: Recursive force delete (rm -rf)"
+
+<span class="c"># event: Bash, "sudo npm i -g x"</span>
+$ runledger guard test "$EVENT"
+  "permissionDecision": "<span class="a">ask</span>",
+  "permissionDecisionReason": "RunLedger guard needs
+    confirmation: Ran a command with sudo"</code></pre>
+        </figure>
+        <figure class="term rv" aria-labelledby="out-receipt-cap">
+          <figcaption class="term__bar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="term__cap" id="out-receipt-cap">runledger receipt · real output</span>
+          </figcaption>
+          <pre><code>$ runledger receipt sample_session.jsonl \
+    -o sample-receipt.html
+Receipt: sample-receipt.html · risk 80/100 (High)
+  · 10 steps
+
+<span class="c">## Why it was flagged</span>
+- <span class="d">HIGH</span> · step 4: Read a secrets file (.env.local)
+- <span class="d">HIGH</span> · step 7: Deleted a test file
+  (retry.legacy.spec.ts)
+- LOW · step 10: Installed packages
+- <span class="d">HIGH</span> · step 10: Touched a secrets file
+  from the shell (.npmrc)</code></pre>
+        </figure>
+      </div>
+      <p class="out__note rv">Captured from RunLedger 0.2.0 on the sample session that ships with the repository. JSON trimmed to the decision fields, the last finding left out, paths shortened and long lines wrapped. <a href="/sample-receipt.html">Open the full HTML receipt</a>, exactly as the CLI wrote it.</p>
     </div>
   </section>
   <script>
@@ -776,48 +893,81 @@ html:not(.js) .hdr__panel { display: flex; }
       <div class="sec-head rv">
         <p class="eyebrow">Features</p>
         <h2 id="features-title">Everything a reviewer needs, in one receipt.</h2>
-        <p class="sec-sub">Built for Claude Code first.</p>
+        <p class="sec-sub">Built for Claude Code first. Everything below is in the open-source code today.</p>
       </div>
+      <p class="legend rv"><span class="ftag ftag--cli"><span>CLI</span> runs on your machine or in your CI</span><span class="ftag ftag--server"><span>Team server</span> self-host for free, or let us host it (early access)</span></p>
       <ul class="feat rv" data-stagger>
         <li class="card rv">
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg></span>
           <h3>Run receipts</h3>
-          <p>Export each run as HTML, Markdown or JSON: files changed, commands and API calls, explained in plain language.</p>
+          <p>Export each run as HTML, Markdown or JSON: files changed, commands and web requests, explained in plain language.</p>
+          <p class="ftag ftag--cli"><span>CLI</span></p>
         </li>
         <li class="card rv">
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.5c-.5-1-1.5-1.5-2.5-1.5-1.4 0-2.5.8-2.5 2s1.1 1.6 2.5 2 2.5.8 2.5 2-1.1 2-2.5 2c-1 0-2-.5-2.5-1.5M12 6.5v1.5M12 16v1.5"/></svg></span>
           <h3>Cost &amp; tokens</h3>
-          <p>Tokens and cost per step and per model. Haiku, Sonnet and Opus each handle the work they suit.</p>
+          <p>Tokens and estimated cost for every step and every model, so you can see how much of a run went to Haiku, Sonnet or Opus.</p>
+          <p class="ftag ftag--cli"><span>CLI</span></p>
         </li>
         <li class="card rv">
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></span>
           <h3>Risk score with reasons</h3>
-          <p>Flags secrets, deleted or skipped tests, rm -rf, force-push, sudo, curl | sh, hardcoded API keys and PowerShell.</p>
+          <p>Flags secrets files, hardcoded API keys, deleted or skipped tests, rm -rf, force-push, sudo and curl | sh, plus PowerShell equivalents such as Remove-Item -Recurse -Force.</p>
+          <p class="ftag ftag--cli"><span>CLI</span></p>
         </li>
         <li class="card rv">
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg></span>
           <h3>Real-time Guard</h3>
-          <p>A Claude Code PreToolUse hook that blocks or asks before a risky action runs.</p>
+          <p>A Claude Code PreToolUse hook that blocks or asks before a risky action runs. Try it first in monitor mode.</p>
+          <p class="ftag ftag--cli"><span>CLI</span></p>
         </li>
         <li class="card rv">
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
           <h3>Human approvals</h3>
-          <p>Approve or deny from Slack, a webhook or the dashboard.</p>
+          <p>Guard requests wait in the dashboard for a person to approve or deny them. Slack and webhooks get notified.</p>
+          <p class="ftag ftag--server"><span>Team server</span></p>
         </li>
         <li class="card rv">
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15v-4M12 15V8M17 15v-6"/></svg></span>
           <h3>Team dashboard</h3>
-          <p>Cost by developer, model and project, plus risk trends over time.</p>
+          <p>Cost by developer, model and project, plus risk trends over time. API keys with roles and an audit log.</p>
+          <p class="ftag ftag--server"><span>Team server</span></p>
         </li>
         <li class="card rv">
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M6 8.5v7M18 8.5c0 5-12 3-12 7"/></svg></span>
           <h3>GitHub PR comments</h3>
-          <p>A receipt comment on each pull request, with a CI fail threshold you set.</p>
+          <p>A GitHub Action posts one receipt comment per pull request and fails the job at the risk threshold you set.</p>
+          <p class="ftag ftag--cli"><span>CLI</span></p>
         </li>
         <li class="card rv">
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>
           <h3>Per-project policies</h3>
-          <p>Set rules per repository in <code>.runledger.json</code>, so each project has its own limits.</p>
+          <p>Set rules per repository in <code>.runledger.json</code>. A project file can make the guard stricter, never looser.</p>
+          <p class="ftag ftag--cli"><span>CLI</span></p>
+        </li>
+        <li class="card rv">
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8z"/></svg></span>
+          <h3>Quality score &amp; cost tips</h3>
+          <p>A session grade from A to F with the signals behind it, and recommendations that estimate what you could save.</p>
+          <p class="ftag ftag--cli"><span>CLI</span></p>
+        </li>
+        <li class="card rv">
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M8.5 11l2 2 3.5-3.5"/></svg></span>
+          <h3>AI risk review</h3>
+          <p>Opt-in with <code>--review</code>: Claude marks each finding as confirmed, false positive or uncertain. The rule-based score never changes.</p>
+          <p class="ftag ftag--cli"><span>CLI</span></p>
+        </li>
+        <li class="card rv">
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 1 10-10"/><path d="M12 6v6l4 2M18 16v6M15 19h6"/></svg></span>
+          <h3>Budgets &amp; alerts</h3>
+          <p>Monthly limits for the team and for each developer, with alerts to Slack or a webhook at 50, 80 and 100% (you can change the thresholds).</p>
+          <p class="ftag ftag--server"><span>Team server</span></p>
+        </li>
+        <li class="card rv">
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/></svg></span>
+          <h3>Exports &amp; report</h3>
+          <p>CSV exports of runs and the audit log, plus an HTML report of risk levels, approvals and budget status for any period.</p>
+          <p class="ftag ftag--server"><span>Team server</span></p>
         </li>
       </ul>
       <div class="roadmap rv">
@@ -829,8 +979,8 @@ html:not(.js) .hdr__panel { display: flex; }
           <li>Rollback: <span class="tag-s tag-planned">Planned</span></li>
         </ul>
       </div>
-      <p class="strip rv"><span>Open-source CLI</span><span>No dependencies</span><span>Works offline</span></p>
-      <p class="fine rv" style="margin-top: 20px">Claude, Claude Code, Haiku, Sonnet and Opus are products of Anthropic. RunLedger is an independent project, not affiliated with or endorsed by Anthropic.</p>
+      <p class="strip rv"><span>Open-source (Apache-2.0)</span><span>No dependencies</span><span>Works offline</span></p>
+      <p class="fine rv" style="margin-top: 20px">Every feature is documented in the <a href="https://github.com/kodji7202-code/runledger/tree/main/docs" data-goatcounter-click="out-docs-features">RunLedger docs on GitHub</a>.</p>
     </div>
   </section>
 
@@ -840,7 +990,7 @@ html:not(.js) .hdr__panel { display: flex; }
       <div class="sec-head rv">
         <p class="eyebrow">Team &amp; review</p>
         <h2 id="team-title">See the whole team's runs. Review each PR with the receipt.</h2>
-        <p class="sec-sub">A dashboard for cost and risk across developers, models and projects, and a receipt comment on every pull request.</p>
+        <p class="sec-sub">A dashboard for cost and risk across developers, models and projects, and a receipt comment on every pull request. The team server is open source: run it yourself for free, or ask for the hosted version.</p>
       </div>
       <div class="team-grid">
         <div>
@@ -886,18 +1036,18 @@ html:not(.js) .hdr__panel { display: flex; }
           <article class="pr rv" aria-label="Example RunLedger comment on a pull request (illustrative)">
             <header class="pr__head">
               <span class="pr__av" aria-hidden="true">RL</span>
-              <span><b>runledger-bot</b> commented <span class="muted">just now</span></span>
+              <span><b>github-actions</b> commented <span class="muted">just now</span></span>
               <span class="pr__tag">bot</span>
             </header>
             <div class="pr__body">
               <p class="pr__title">RunLedger receipt · fix/retry-logic</p>
-              <p class="risk-badge">Risk 62 / 100 · Medium</p>
+              <p class="risk-badge is-high">Risk 60 / 100 · High</p>
               <ul class="pr__list">
-                <li><span class="mk amber" aria-hidden="true">▲</span><span>Deleted tests/payments/retry.legacy.spec.ts</span></li>
+                <li><span class="mk red" aria-hidden="true">▲</span><span>Deleted tests/payments/retry.legacy.spec.ts</span></li>
                 <li><span class="mk red" aria-hidden="true">●</span><span>Read .env.local (secrets file)</span></li>
                 <li><span class="mk" aria-hidden="true" style="color: var(--accent)">✓</span><span>No actions outside the working folder</span></li>
               </ul>
-              <p class="pr__foot">3 files changed · $0.071 · 4m 12s<br>CI threshold 80: passed · <a href="#receipt">View sample receipt</a></p>
+              <p class="pr__foot">3 files changed · $0.071 · 4m 12s<br>fail-on 80: passed · <a href="/sample-receipt.html">View a real sample receipt</a></p>
             </div>
           </article>
         </div>
@@ -913,10 +1063,28 @@ html:not(.js) .hdr__panel { display: flex; }
           <p class="eyebrow">Install</p>
           <h2 id="install-title">Your first receipt in two commands.</h2>
           <p class="sec-sub">Free and open source. No account, no dependencies, and it works offline. Receipts stay on your machine until you choose to push them.</p>
+          <ul class="install__meta">
+            <li>Python 3.9 or later. Tested in CI on Linux, macOS and Windows.</li>
+            <li>Run <code>runledger list</code> in a project folder to see its recent agent sessions.</li>
+            <li>Full walkthrough, including CI and a local team server: <a href="https://github.com/kodji7202-code/runledger/blob/main/docs/quickstart.md" data-goatcounter-click="out-quickstart">Quickstart</a> · <a href="https://github.com/kodji7202-code/runledger/blob/main/docs/guard.md" data-goatcounter-click="out-guard-docs">Guard docs</a></li>
+          </ul>
         </div>
-        <div class="cmds">
-          <div class="cmd"><code><span class="ps" aria-hidden="true">$</span> pip install runledger-ai</code><button class="copy" type="button" data-copy="pip install runledger-ai">Copy<span class="sr-only"> pip install command</span></button></div>
-          <div class="cmd"><code><span class="ps" aria-hidden="true">$</span> runledger receipt --open</code><button class="copy" type="button" data-copy="runledger receipt --open">Copy<span class="sr-only"> receipt command</span></button></div>
+        <div class="install__steps">
+          <div class="install__step">
+            <p class="install__label"><span>1</span> Install</p>
+            <div class="cmd"><code><span class="ps" aria-hidden="true">$</span> pip install runledger-ai</code><button class="copy" type="button" data-copy="pip install runledger-ai" data-goatcounter-click="copy-pip">Copy<span class="sr-only"> pip install command</span></button></div>
+            <p class="install__alt">Or as an isolated tool: <code>pipx install runledger-ai</code> or <code>uv tool install runledger-ai</code></p>
+          </div>
+          <div class="install__step">
+            <p class="install__label"><span>2</span> Receipt for your latest run</p>
+            <div class="cmd"><code><span class="ps" aria-hidden="true">$</span> runledger receipt --open</code><button class="copy" type="button" data-copy="runledger receipt --open" data-goatcounter-click="copy-receipt">Copy<span class="sr-only"> receipt command</span></button></div>
+            <p class="install__alt">Run it in the folder where you used the agent. The HTML receipt opens in your browser.</p>
+          </div>
+          <div class="install__step">
+            <p class="install__label"><span>3</span> Optional: turn on the guard for Claude Code</p>
+            <div class="cmd"><code><span class="ps" aria-hidden="true">$</span> runledger guard install</code><button class="copy" type="button" data-copy="runledger guard install" data-goatcounter-click="copy-guard">Copy<span class="sr-only"> guard install command</span></button></div>
+            <p class="install__alt">Adds a PreToolUse hook to this project's <code>.claude/settings.json</code> and keeps a backup. Use <code>--global</code> for every project.</p>
+          </div>
         </div>
       </div>
       <p class="sr-only" id="copy-live" aria-live="polite"></p>
@@ -928,20 +1096,20 @@ html:not(.js) .hdr__panel { display: flex; }
     <div class="wrap">
       <div class="sec-head rv">
         <p class="eyebrow">Pricing</p>
-        <h2 id="pricing-title">Free to run locally. Pay when the team needs it.</h2>
-        <p class="early">Team &amp; Enterprise in early access</p>
+        <h2 id="pricing-title">Free to run yourself. Pay when you want us to run it.</h2>
+        <p class="early">Hosted Team &amp; Enterprise in early access</p>
       </div>
       <div class="plans rv" data-stagger>
         <article class="plan rv">
           <h3>Free</h3>
           <p class="plan__price">$0 <span>forever</span></p>
-          <p class="plan__desc">The open-source CLI, running on your machine.</p>
+          <p class="plan__desc">All of the open-source code, on your machine and your own server.</p>
           <ul class="ticks">
             <li>Run receipts (HTML, Markdown, JSON)</li>
-            <li>Real-time Guard</li>
-            <li>Cost &amp; tokens per step</li>
-            <li>Risk score with reasons</li>
-            <li>Per-project policies</li>
+            <li>Real-time Guard and per-project policies</li>
+            <li>Cost, tokens and risk score with reasons</li>
+            <li>GitHub PR comments and CI gate</li>
+            <li>Self-hosted team server: dashboard, approvals, budgets, exports</li>
           </ul>
           <a class="btn btn--block" href="#install">Install the CLI</a>
         </article>
@@ -949,12 +1117,12 @@ html:not(.js) .hdr__panel { display: flex; }
           <span class="plan__flag">Early access</span>
           <h3>Team</h3>
           <p class="plan__price">$15 <span>per developer / month</span></p>
-          <p class="plan__desc">For teams that want shared visibility and approvals.</p>
+          <p class="plan__desc">The team server, hosted by RunLedger. Nothing to install or maintain.</p>
           <ul class="ticks">
             <li>Everything in Free</li>
-            <li>Team dashboard</li>
-            <li>Human approvals via Slack and webhook</li>
-            <li>GitHub PR comments and CI threshold</li>
+            <li>Hosted dashboard with HTTPS, backups and upgrades</li>
+            <li>Approvals with Slack and webhook notifications</li>
+            <li>Budgets and alerts</li>
             <li>90-day history</li>
           </ul>
           <a class="btn btn--primary btn--block" href="#early-access">Request early access</a>
@@ -962,17 +1130,18 @@ html:not(.js) .hdr__panel { display: flex; }
         <article class="plan rv">
           <h3>Enterprise</h3>
           <p class="plan__price">Custom</p>
-          <p class="plan__desc">For organisations that need control over where data lives.</p>
+          <p class="plan__desc">For organisations that run the server themselves and want help doing it.</p>
           <ul class="ticks">
-            <li>Self-hosted team server</li>
-            <li>SSO</li>
-            <li>Audit exports</li>
-            <li>Policies across all projects</li>
+            <li>Help deploying the server in your infrastructure</li>
+            <li>Support from the person who builds it</li>
+            <li>Audit log and compliance report exports</li>
+            <li>Help writing guard policies for your teams</li>
+            <li>SSO (planned)</li>
           </ul>
           <a class="btn btn--block" href="mailto:hello@runledger.site?subject=RunLedger%20Enterprise">Talk to us</a>
         </article>
       </div>
-      <p class="fine price-note">Prices in USD. Pricing may change before general availability.</p>
+      <p class="fine price-note">Prices in USD. The hosted plans are not on sale yet, and pricing may change before general availability.</p>
     </div>
   </section>
 
@@ -986,19 +1155,47 @@ html:not(.js) .hdr__panel { display: flex; }
       <div class="faq rv">
         <details>
           <summary>Does my code leave my machine?</summary>
-          <div class="faq__a"><p>No. The CLI runs locally and writes receipts to your disk. The team server can be self-hosted. Receipts contain prompts and file paths, so you choose what to push.</p></div>
+          <div class="faq__a"><p>Not unless you ask it to. <code>receipt</code>, <code>list</code> and the guard run on your machine, and RunLedger has no telemetry. Data leaves only when you push a run to a team server, set Slack or webhook notifications, use the GitHub Action, or opt in to <code>--ai</code> or <code>--review</code>, which send parts of the session to the Anthropic API.</p></div>
         </details>
         <details>
-          <summary>Which agents does it support?</summary>
-          <div class="faq__a"><p>Claude Code today. Codex CLI and Aider are in beta, and any agent can use the open RunLedger JSON format.</p></div>
+          <summary>What exactly does a receipt record?</summary>
+          <div class="faq__a"><p>The first prompts, and for each step: the first line of the command (up to 120 characters), file paths and line counts, search patterns and URLs, the model, tokens and cost, plus the risk findings and their reasons. It does not contain file contents or command output, only test pass and fail counts. Receipts are not redacted, so a token typed into a command appears in them. The guard writes its decisions to <code>.runledger/guard.log</code> in the project. Add <code>.runledger/</code> to your <code>.gitignore</code>.</p></div>
         </details>
         <details>
-          <summary>How is cost computed?</summary>
-          <div class="faq__a"><p>From list prices for each model, applied to the token counts recorded for each step. It is an estimate, not an invoice. Check your provider's billing for exact amounts.</p></div>
+          <summary>Which agents and systems does it support?</summary>
+          <div class="faq__a"><p>Claude Code is stable. Codex CLI and Aider are in beta, and any agent can write the open <a href="https://github.com/kodji7202-code/runledger/blob/main/docs/format.md">RunLedger session format</a>. The CLI needs Python 3.9 or later and is tested on Linux, macOS and Windows. The guard is a Claude Code hook, so it works with Claude Code only.</p></div>
+        </details>
+        <details>
+          <summary>How is the risk score computed?</summary>
+          <div class="faq__a"><p>By fixed rules, so every point has a reason you can check. Each finding adds points by severity: 30 for high, 15 for medium, 5 for low. A repeat of the same finding adds a third. All medium findings together add at most 45 and all low findings at most 10, so many small findings cannot reach 100 on their own. The total is capped at 100. Below 25 is Low, below 60 is Medium, and 60 or more is High.</p></div>
+        </details>
+        <details>
+          <summary>What about false positives?</summary>
+          <div class="faq__a"><p>Start the guard in monitor mode (<code>"mode": "monitor"</code> in <code>~/.runledger/config.json</code>). It then logs what it would have blocked without stopping anything. Tune the rules in your user file or a project's <code>.runledger.json</code>. For receipts, the opt-in <code>--review</code> asks Claude to mark each finding as confirmed, false positive or uncertain, without changing the score.</p></div>
+        </details>
+        <details>
+          <summary>How do I turn the guard off?</summary>
+          <div class="faq__a"><p>Remove the <code>runledger guard</code> entry under <code>hooks.PreToolUse</code> in <code>.claude/settings.json</code> (or <code>~/.claude/settings.json</code> if you installed it with <code>--global</code>). You can also restore <code>settings.json.bak</code>, the copy the installer saved before its last change. To remove the CLI, run <code>pip uninstall runledger-ai</code>.</p></div>
         </details>
         <details>
           <summary>Will the guard slow my agent?</summary>
-          <div class="faq__a"><p>The guard is a local check that takes milliseconds. If it hits an internal error, it fails open, so an error never blocks your agent.</p></div>
+          <div class="faq__a"><p>The guard is a local check that takes milliseconds. By default it fails open: if it hits an internal error, Claude Code's normal permissions apply. Set <code>"fail_closed": true</code> if you would rather deny on errors.</p></div>
+        </details>
+        <details>
+          <summary>How is cost computed?</summary>
+          <div class="faq__a"><p>From public Claude API list prices, applied to the token counts recorded for each step. It is an estimate, not an invoice. On a subscription you are not billed per token, so read it as what the run would cost on the API.</p></div>
+        </details>
+        <details>
+          <summary>Where does team data live?</summary>
+          <div class="faq__a"><p>On the server you choose. The self-hosted team server stores pushed receipts in one SQLite file on your own machine or cloud, and keeps them until you delete them. For the hosted Team plan, we will publish where data is stored and for how long before it launches.</p></div>
+        </details>
+        <details>
+          <summary>How is this different from LLM tracing tools?</summary>
+          <div class="faq__a"><p>Tracing and observability tools usually sit in front of your API calls and send traces to a service. RunLedger reads the session logs that coding agents already write, works offline, and focuses on what a reviewer needs: what changed, what it cost, and what looked risky. Its guard can also stop a tool call before it runs.</p></div>
+        </details>
+        <details>
+          <summary>What is the license?</summary>
+          <div class="faq__a"><p>Apache License 2.0, for the CLI, the guard, the GitHub Action and the team server. The code is on <a href="https://github.com/kodji7202-code/runledger">GitHub</a>. To report a security issue, email <a href="mailto:hello@runledger.site">hello@runledger.site</a> instead of opening a public issue.</p></div>
         </details>
       </div>
     </div>
@@ -1011,12 +1208,12 @@ html:not(.js) .hdr__panel { display: flex; }
         <div class="signup__copy">
           <p class="eyebrow">Early access</p>
           <h2 id="ea-title">Get early access.</h2>
-          <p>We're opening RunLedger to a small group of developers first. Tell us which agents you use and we'll reach out.</p>
+          <p>The CLI and the self-hosted server are free to use today. We're opening the hosted team server to a small group of teams first. Tell us which agents you use and we'll reach out.</p>
         </div>
         <form class="form" id="ea-form" data-endpoint="https://formspree.io/f/xdeagzjb" novalidate>
           <div class="field">
-            <label for="ea-email">Work email</label>
-            <input class="input" id="ea-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required aria-describedby="ea-msg">
+            <label for="ea-email">Email</label>
+            <input class="input" id="ea-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="ea-msg">
           </div>
           <div class="field">
             <label for="ea-agents">Which agents do you use? <span class="opt">(optional)</span></label>
@@ -1026,17 +1223,24 @@ html:not(.js) .hdr__panel { display: flex; }
               <option value="Codex">Codex</option>
               <option value="Cursor">Cursor</option>
               <option value="Copilot">Copilot</option>
+              <option value="Aider">Aider</option>
               <option value="Other">Other</option>
             </select>
           </div>
+          <div class="field">
+            <label for="ea-need">What do you want to solve? <span class="opt">(optional)</span></label>
+            <textarea class="input input--area" id="ea-need" name="need" rows="3" maxlength="1000" placeholder="For example: review agent PRs, control cost, block risky commands"></textarea>
+          </div>
           <button class="btn btn--primary btn--lg" id="ea-submit" type="submit">Request access</button>
           <p class="form__msg" id="ea-msg" aria-live="polite"></p>
+          <p class="fine">We use your email only to contact you about RunLedger. The form is processed by Formspree. See the <a href="/privacy.html">privacy policy</a>.</p>
           <p class="fine">Or email <a href="mailto:hello@runledger.site">hello@runledger.site</a></p>
         </form>
       </div>
       <aside class="where rv" aria-labelledby="where-title">
         <h3 id="where-title">Where we are</h3>
-        <p>RunLedger is an early-stage, bootstrapped project founded in October 2026. The product is in active development. The receipts and charts on this page are illustrative mockups, not live data.</p>
+        <p>RunLedger is an early-stage, bootstrapped project founded in October 2026, built by Claudiu Cojocaru in Constanța, Romania. Coding agents now change real code while nobody reads the full transcript. I want every run to leave a short, honest record of what changed, what it cost and what looked risky, and to stop the worst commands before they run.</p>
+        <p>The product is in active development. You can follow it in the <a href="https://github.com/kodji7202-code/runledger/blob/main/CHANGELOG.md">changelog</a> and in <a href="https://github.com/kodji7202-code/runledger/issues">GitHub Issues</a>. The receipt, dashboard and pull request cards on this page are illustrative mockups. The real output and the <a href="/sample-receipt.html">sample receipt</a> come straight from the CLI.</p>
       </aside>
     </div>
   </section>
@@ -1049,17 +1253,28 @@ html:not(.js) .hdr__panel { display: flex; }
         <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><path d="M10 10h12M10 15h12M10 20h7"/><circle cx="22" cy="21" r="2.2"/></svg>
         <span>RunLedger</span>
       </a>
-      <p class="fine">Founded by Claudiu Cojocaru, Founder &amp; CEO · Constanța, Romania</p>
+      <p class="fine">Built by Claudiu Cojocaru · Constanța, Romania</p>
       <p class="fine">Claude, Claude Code, Haiku, Sonnet and Opus are products of Anthropic. RunLedger is an independent project, not affiliated with or endorsed by Anthropic.</p>
     </div>
-    <nav class="foot__nav" aria-label="Footer">
-      <a href="#how">How it works</a>
-      <a href="#guard">Guard</a>
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
-      <a href="mailto:hello@runledger.site">hello@runledger.site</a>
-    </nav>
+    <div class="foot__cols">
+      <nav class="foot__nav" aria-label="Footer">
+        <a href="#how">How it works</a>
+        <a href="#guard">Guard</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="mailto:hello@runledger.site">hello@runledger.site</a>
+      </nav>
+      <nav class="foot__nav" aria-label="Project">
+        <a href="https://github.com/kodji7202-code/runledger" data-goatcounter-click="out-github-footer">GitHub</a>
+        <a href="https://github.com/kodji7202-code/runledger/tree/main/docs" data-goatcounter-click="out-docs-footer">Docs</a>
+        <a href="https://github.com/kodji7202-code/runledger/blob/main/CHANGELOG.md" data-goatcounter-click="out-changelog-footer">Changelog</a>
+        <a href="https://github.com/kodji7202-code/runledger/issues" data-goatcounter-click="out-issues-footer">Issues</a>
+        <a href="https://pypi.org/project/runledger-ai/" data-goatcounter-click="out-pypi-footer">PyPI</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </nav>
+    </div>
     <p class="foot__copy">© 2026 RunLedger</p>
   </div>
 </footer>
@@ -1207,11 +1422,15 @@ html:not(.js) .hdr__panel { display: flex; }
   /* Early access: POST JSON to data-endpoint when set; otherwise, or on failure, open the mail app. */
   var CONTACT = "hello@runledger.site";
   var form = d.getElementById("ea-form"), email = d.getElementById("ea-email"), agents = d.getElementById("ea-agents"),
-      msg = d.getElementById("ea-msg"), submit = d.getElementById("ea-submit");
+      need = d.getElementById("ea-need"), msg = d.getElementById("ea-msg"), submit = d.getElementById("ea-submit");
   function say(text, kind) { msg.className = "form__msg" + (kind ? " is-" + kind : ""); msg.textContent = text; }
+  function track(name) {
+    if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: name, title: name, event: true });
+  }
   function openMail(v, a) {
+    var n = need.value.trim();
     var body = "Hi RunLedger team,\n\nI would like early access to RunLedger.\n\nMy email: " + v +
-               "\nAgents I use: " + (a || "not specified") + "\n";
+               "\nAgents I use: " + (a || "not specified") + (n ? "\nWhat I want to solve: " + n : "") + "\n";
     window.location.href = "mailto:" + CONTACT + "?subject=" + encodeURIComponent("RunLedger early access") +
                            "&body=" + encodeURIComponent(body);
   }
@@ -1228,6 +1447,7 @@ html:not(.js) .hdr__panel { display: flex; }
     var endpoint = form.getAttribute("data-endpoint");
     if (!endpoint) {
       say("Your mail app should open now.", "ok");
+      track("early-access-mail");
       openMail(v, a);
       return;
     }
@@ -1238,16 +1458,18 @@ html:not(.js) .hdr__panel { display: flex; }
     function failed(text) {
       var sentence = /[.!?]$/.test(text) ? text : text + ".";
       say(sentence + " Your mail app will open instead.", "err");
+      track("early-access-mail");
       openMail(v, a);
     }
     fetch(endpoint, {
       method: "POST",
       headers: { "Accept": "application/json", "Content-Type": "application/json" },
-      body: JSON.stringify({ email: v, agents: a, _subject: "RunLedger early access" }),
+      body: JSON.stringify({ email: v, agents: a, need: need.value.trim(), _subject: "RunLedger early access" }),
       signal: ctrl ? ctrl.signal : undefined
     }).then(function (r) {
       if (r.ok) {
         say("Thanks, you're on the list. We'll be in touch.", "ok");
+        track("early-access-submit");
         form.reset();
         return;
       }
