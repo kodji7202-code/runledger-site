@@ -370,20 +370,66 @@ html:not(.js) .hdr__panel { display: flex; }
 .term .sr-only { position: absolute; }
 
 /* ---------- Features ---------- */
-.feat { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-.card { padding: 24px; border: 1px solid transparent; border-radius: var(--r-m); background: var(--soft); transition: border-color .25s var(--ease), translate .35s var(--ease); }
-.card:hover { border-color: var(--line-2); }
-.card .ico { display: grid; place-items: center; width: 38px; height: 38px; margin-bottom: 18px; border-radius: 10px; background: var(--accent-wash); color: var(--accent); }
-.card .ico svg { width: 19px; height: 19px; }
-.card p { margin-top: 8px; font-size: 15px; line-height: 1.5; color: var(--fg-2); }
-.card { display: flex; flex-direction: column; }
-.card .ftag { align-self: flex-start; margin-top: auto; padding-top: 16px; }
-.ftag span { display: inline-block; padding: 3px 9px; border-radius: 999px; font: 500 11.5px/1.4 var(--mono); }
-.ftag--cli span { background: var(--accent-wash); color: var(--accent); }
-.ftag--server span { background: var(--raise); border: 1px solid var(--line-2); color: var(--fg-2); }
-.legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: -16px 0 22px; font-size: 14px; color: var(--fg-2); }
-.legend .ftag { display: inline-flex; align-items: center; gap: 8px; }
-@media (hover: hover) and (prefers-reduced-motion: no-preference) { .card:hover { translate: 0 -3px; } }
+/* Two groups (CLI, Team server) on a 6-column bento grid: wide cards span 3, compact cards span 2. */
+.fgroup + .fgroup { margin-top: 20px; }
+.fgroup--server { padding: clamp(16px, 2.4vw, 24px); border: 1px solid var(--line); border-radius: var(--r-l); background: var(--soft); }
+.fgroup__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 20px; margin-bottom: 14px; }
+.fgroup__label { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; }
+.fgroup__sub { font-size: 14px; color: var(--fg-2); }
+.ftag { display: inline-block; padding: 3px 9px; border-radius: 999px; font: 500 11.5px/1.4 var(--mono); }
+.ftag--cli { background: var(--accent-wash); color: var(--accent); }
+.ftag--server { background: var(--raise); border: 1px solid var(--line-2); color: var(--fg-2); }
+.feat { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+.feat > .card { grid-column: span 2; }
+.feat > .card--wide { grid-column: span 3; }
+.feat.feat--server { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.feat.feat--server > .card { grid-column: auto; background: var(--raise); }
+.card { position: relative; isolation: isolate; display: flex; flex-direction: column; gap: 8px; padding: 18px 20px 20px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-m); background: var(--soft); transition: border-color .3s var(--ease), translate .35s var(--ease); }
+.motion .feat .card.rv { transition: opacity .6s var(--ease), transform .7s var(--ease), translate .35s var(--ease), border-color .3s var(--ease); transition-delay: var(--d, 0ms); }
+.card__top { display: flex; align-items: center; gap: 12px; }
+.card h3 { font-size: 1rem; }
+.card p { font-size: 14.5px; line-height: 1.5; color: var(--fg-2); }
+.card .ico { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--accent-wash); color: var(--accent); transition: background-color .3s var(--ease), color .3s var(--ease), transform .45s var(--ease); }
+.card .ico svg { width: 18px; height: 18px; }
+/* Pointer spotlight: a soft wash inside the card plus a glow that only paints the 1px border (mask trick). */
+.card::before, .card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .35s var(--ease); }
+.card::before { z-index: -1; background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 0%), var(--accent-wash), transparent 70%); }
+.card::after {
+  z-index: 1; padding: 1px;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--accent) 75%, transparent), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude;
+}
+@media (hover: hover) {
+  .card:hover { border-color: var(--line-2); }
+  .card:hover::before, .card:hover::after { opacity: 1; }
+  .card:hover .ico { background: var(--accent); color: var(--on-accent); }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card:hover { translate: 0 -3px; }
+  .card:hover .ico { transform: rotate(-8deg) scale(1.06); }
+}
+/* Mini visuals in the wide cards. Rows are complete in the HTML; they only replay an entrance when the card is revealed. */
+.mv { display: grid; gap: 6px; margin-top: auto; padding-top: 10px; font: 400 12.5px/1.4 var(--mono); }
+.mv__row { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 7px 10px; border: 1px solid var(--line); border-left: 2px solid var(--line-2); border-radius: 8px; background: var(--raise); }
+.mv__row--deny { border-left-color: var(--red); }
+.mv__row--ask { border-left-color: var(--amber); }
+.mv__row--allow, .mv__row--add { border-left-color: var(--accent); }
+.mv__path { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mv__num { flex: none; color: var(--fg-2); white-space: nowrap; }
+.mv__num .add { color: var(--accent); }
+.mv__num .rem { color: var(--red); }
+.mv__pill { flex: none; padding: 2px 8px; border-radius: 999px; font: 500 11px/1.4 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+.mv__pill--deny { background: var(--red-wash); color: var(--red); }
+.mv__pill--ask { background: var(--amber-wash); color: var(--amber); }
+.mv__pill--allow { background: var(--accent-wash); color: var(--accent); }
+.mv__pill--muted { background: var(--soft); color: var(--fg-2); }
+.mv__chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.mv__chips span { padding: 3px 8px; border: 1px solid var(--line-2); border-radius: 6px; font-size: 11.5px; color: var(--fg-2); }
+.motion .card.in .mv__row, .motion .card.in .mv__chips { animation: mv-in .55s var(--ease) backwards; animation-delay: calc(var(--k, 0) * 120ms + 300ms); }
+.motion .card.in .mv__pill { animation: mv-pop .45s cubic-bezier(.3, 1.6, .5, 1) backwards; animation-delay: calc(var(--k, 0) * 120ms + 620ms); }
+@keyframes mv-in { from { opacity: 0; transform: translateX(-12px); } }
+@keyframes mv-pop { from { opacity: 0; transform: scale(.5); } }
 .roadmap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 15px; }
 .roadmap__t { font: 500 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--fg-2); }
 .roadmap ul { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -395,8 +441,15 @@ html:not(.js) .hdr__panel { display: flex; }
 .tag-beta { background: var(--accent-wash); color: var(--accent); }
 .strip { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 18px; font-size: 14px; color: var(--fg-2); }
 .strip span::before { content: "✓ "; color: var(--accent); }
-@media (max-width: 1000px) { .feat { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 600px) { .feat { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 1000px) {
+  .feat > .card { grid-column: span 3; }
+  .feat > .card--wide { grid-column: span 6; }
+  .feat.feat--server { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .feat > .card, .feat > .card--wide { grid-column: span 6; }
+  .feat.feat--server { grid-template-columns: minmax(0, 1fr); }
+}
 
 /* ---------- Team & review ---------- */
 .team-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; align-items: start; }
@@ -895,81 +948,119 @@ Receipt: sample-receipt.html · risk 80/100 (High)
         <h2 id="features-title">Everything a reviewer needs, in one receipt.</h2>
         <p class="sec-sub">Built for Claude Code first. Everything below is in the open-source code today.</p>
       </div>
-      <p class="legend rv"><span class="ftag ftag--cli"><span>CLI</span> runs on your machine or in your CI</span><span class="ftag ftag--server"><span>Team server</span> self-host for free, or let us host it (early access)</span></p>
-      <ul class="feat rv" data-stagger>
-        <li class="card rv">
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg></span>
-          <h3>Run receipts</h3>
-          <p>Export each run as HTML, Markdown or JSON: files changed, commands and web requests, explained in plain language.</p>
-          <p class="ftag ftag--cli"><span>CLI</span></p>
-        </li>
-        <li class="card rv">
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.5c-.5-1-1.5-1.5-2.5-1.5-1.4 0-2.5.8-2.5 2s1.1 1.6 2.5 2 2.5.8 2.5 2-1.1 2-2.5 2c-1 0-2-.5-2.5-1.5M12 6.5v1.5M12 16v1.5"/></svg></span>
-          <h3>Cost &amp; tokens</h3>
-          <p>Tokens and estimated cost for every step and every model, so you can see how much of a run went to Haiku, Sonnet or Opus.</p>
-          <p class="ftag ftag--cli"><span>CLI</span></p>
-        </li>
-        <li class="card rv">
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></span>
-          <h3>Risk score with reasons</h3>
-          <p>Flags secrets files, hardcoded API keys, deleted or skipped tests, rm -rf, force-push, sudo and curl | sh, plus PowerShell equivalents such as Remove-Item -Recurse -Force.</p>
-          <p class="ftag ftag--cli"><span>CLI</span></p>
-        </li>
-        <li class="card rv">
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg></span>
-          <h3>Real-time Guard</h3>
-          <p>A Claude Code PreToolUse hook that blocks or asks before a risky action runs. Try it first in monitor mode.</p>
-          <p class="ftag ftag--cli"><span>CLI</span></p>
-        </li>
-        <li class="card rv">
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-          <h3>Human approvals</h3>
-          <p>Guard requests wait in the dashboard for a person to approve or deny them. Slack and webhooks get notified.</p>
-          <p class="ftag ftag--server"><span>Team server</span></p>
-        </li>
-        <li class="card rv">
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15v-4M12 15V8M17 15v-6"/></svg></span>
-          <h3>Team dashboard</h3>
-          <p>Cost by developer, model and project, plus risk trends over time. API keys with roles and an audit log.</p>
-          <p class="ftag ftag--server"><span>Team server</span></p>
-        </li>
-        <li class="card rv">
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M6 8.5v7M18 8.5c0 5-12 3-12 7"/></svg></span>
-          <h3>GitHub PR comments</h3>
-          <p>A GitHub Action posts one receipt comment per pull request and fails the job at the risk threshold you set.</p>
-          <p class="ftag ftag--cli"><span>CLI</span></p>
-        </li>
-        <li class="card rv">
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>
-          <h3>Per-project policies</h3>
-          <p>Set rules per repository in <code>.runledger.json</code>. A project file can make the guard stricter, never looser.</p>
-          <p class="ftag ftag--cli"><span>CLI</span></p>
-        </li>
-        <li class="card rv">
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8z"/></svg></span>
-          <h3>Quality score &amp; cost tips</h3>
-          <p>A session grade from A to F with the signals behind it, and recommendations that estimate what you could save.</p>
-          <p class="ftag ftag--cli"><span>CLI</span></p>
-        </li>
-        <li class="card rv">
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M8.5 11l2 2 3.5-3.5"/></svg></span>
-          <h3>AI risk review</h3>
-          <p>Opt-in with <code>--review</code>: Claude marks each finding as confirmed, false positive or uncertain. The rule-based score never changes.</p>
-          <p class="ftag ftag--cli"><span>CLI</span></p>
-        </li>
-        <li class="card rv">
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 1 10-10"/><path d="M12 6v6l4 2M18 16v6M15 19h6"/></svg></span>
-          <h3>Budgets &amp; alerts</h3>
-          <p>Monthly limits for the team and for each developer, with alerts to Slack or a webhook at 50, 80 and 100% (you can change the thresholds).</p>
-          <p class="ftag ftag--server"><span>Team server</span></p>
-        </li>
-        <li class="card rv">
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/></svg></span>
-          <h3>Exports &amp; report</h3>
-          <p>CSV exports of runs and the audit log, plus an HTML report of risk levels, approvals and budget status for any period.</p>
-          <p class="ftag ftag--server"><span>Team server</span></p>
-        </li>
-      </ul>
+      <div class="fgroup">
+        <div class="fgroup__head rv">
+          <p class="fgroup__label"><span class="ftag ftag--cli">CLI</span> On your machine or in your CI</p>
+          <p class="fgroup__sub">Free and open source. No account needed.</p>
+        </div>
+        <ul class="feat" data-stagger>
+          <li class="card card--wide rv">
+            <div class="card__top">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg></span>
+              <h3>Run receipts</h3>
+            </div>
+            <p>Every run as HTML, Markdown or JSON: files changed, commands and web requests, explained in plain language.</p>
+            <div class="mv" aria-hidden="true">
+              <div class="mv__row mv__row--add" style="--k: 0"><span class="mv__path">src/payments/retry.ts</span><span class="mv__num"><span class="add">+11</span> <span class="rem">−1</span></span></div>
+              <div class="mv__row mv__row--add" style="--k: 1"><span class="mv__path">tests/payments/retry.spec.ts</span><span class="mv__pill mv__pill--allow">new</span></div>
+              <div class="mv__row mv__row--deny" style="--k: 2"><span class="mv__path">tests/payments/retry.legacy.spec.ts</span><span class="mv__pill mv__pill--deny">deleted</span></div>
+              <div class="mv__chips" style="--k: 3"><span>.html</span><span>.md</span><span>.json</span></div>
+            </div>
+          </li>
+          <li class="card card--wide rv">
+            <div class="card__top">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <h3>Real-time Guard</h3>
+            </div>
+            <p>A Claude Code PreToolUse hook that denies or asks before a risky call runs. Start in monitor mode to see what it would stop.</p>
+            <div class="mv" aria-hidden="true">
+              <div class="mv__row mv__row--deny" style="--k: 0"><span class="mv__path">$ rm -rf ./build ~/</span><span class="mv__pill mv__pill--deny">deny</span></div>
+              <div class="mv__row mv__row--ask" style="--k: 1"><span class="mv__path">$ sudo npm i -g x</span><span class="mv__pill mv__pill--ask">ask</span></div>
+              <div class="mv__row mv__row--allow" style="--k: 2"><span class="mv__path">$ npm test</span><span class="mv__pill mv__pill--allow">allow</span></div>
+              <div class="mv__chips" style="--k: 3"><span>enforce</span><span>monitor</span><span>fail-open</span></div>
+            </div>
+          </li>
+          <li class="card rv">
+            <div class="card__top">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></span>
+              <h3>Risk score with reasons</h3>
+            </div>
+            <p>Flags secrets, hardcoded keys, deleted or skipped tests, rm -rf, force-push, sudo and curl | sh, in Bash and PowerShell.</p>
+          </li>
+          <li class="card rv">
+            <div class="card__top">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.5c-.5-1-1.5-1.5-2.5-1.5-1.4 0-2.5.8-2.5 2s1.1 1.6 2.5 2 2.5.8 2.5 2-1.1 2-2.5 2c-1 0-2-.5-2.5-1.5M12 6.5v1.5M12 16v1.5"/></svg></span>
+              <h3>Cost &amp; tokens</h3>
+            </div>
+            <p>Tokens and estimated cost for every step and model, so you see where a run's spend went.</p>
+          </li>
+          <li class="card rv">
+            <div class="card__top">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M6 8.5v7M18 8.5c0 5-12 3-12 7"/></svg></span>
+              <h3>GitHub PR comments</h3>
+            </div>
+            <p>One sticky receipt comment per pull request, and a failed job above the risk threshold you set.</p>
+          </li>
+          <li class="card rv">
+            <div class="card__top">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>
+              <h3>Per-project policies</h3>
+            </div>
+            <p>Rules per repository in <code>.runledger.json</code>. A project can make the guard stricter, never looser.</p>
+          </li>
+          <li class="card rv">
+            <div class="card__top">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8z"/></svg></span>
+              <h3>Quality score &amp; cost tips</h3>
+            </div>
+            <p>A grade from A to F with the signals behind it, plus tips that estimate what you could save.</p>
+          </li>
+          <li class="card rv">
+            <div class="card__top">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M8.5 11l2 2 3.5-3.5"/></svg></span>
+              <h3>AI risk review</h3>
+            </div>
+            <p>Opt-in <code>--review</code>: Claude marks each finding as confirmed, false positive or uncertain. The score stays rule-based.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="fgroup fgroup--server">
+        <div class="fgroup__head rv">
+          <p class="fgroup__label"><span class="ftag ftag--server">Team server</span> For the whole team</p>
+          <p class="fgroup__sub">Open source: self-host it for free, or let us host it (early access).</p>
+        </div>
+        <ul class="feat feat--server" data-stagger>
+          <li class="card rv">
+            <div class="card__top">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+              <h3>Human approvals</h3>
+            </div>
+            <p>Guard requests wait on the dashboard until a person approves or denies them. Slack and webhooks get notified.</p>
+          </li>
+          <li class="card rv">
+            <div class="card__top">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15v-4M12 15V8M17 15v-6"/></svg></span>
+              <h3>Team dashboard</h3>
+            </div>
+            <p>Cost by developer, model and project, risk trends, API keys with roles and an audit log.</p>
+          </li>
+          <li class="card rv">
+            <div class="card__top">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 1 10-10"/><path d="M12 6v6l4 2M18 16v6M15 19h6"/></svg></span>
+              <h3>Budgets &amp; alerts</h3>
+            </div>
+            <p>Monthly limits per team and per developer, with alerts at 50, 80 and 100% by default.</p>
+          </li>
+          <li class="card rv">
+            <div class="card__top">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/></svg></span>
+              <h3>Exports &amp; report</h3>
+            </div>
+            <p>CSV exports of runs and the audit log, and an HTML report for any period.</p>
+          </li>
+        </ul>
+      </div>
       <div class="roadmap rv">
         <p class="roadmap__t">Roadmap</p>
         <ul>
@@ -1387,6 +1478,19 @@ Receipt: sample-receipt.html · risk 80/100 (High)
   var heroEl = $(".hero");
   if (motion && heroEl && "IntersectionObserver" in window) {
     new IntersectionObserver(function (es) { heroEl.classList.toggle("is-off", !es[0].isIntersecting); }, { threshold: 0 }).observe(heroEl);
+  }
+
+  /* Feature cards: the hover spotlight follows the pointer. One listener per grid, CSS variables per card. */
+  if (motion && window.matchMedia("(hover: hover)").matches) {
+    $$(".feat").forEach(function (g) {
+      g.addEventListener("pointermove", function (e) {
+        var c = e.target.closest(".card");
+        if (!c) return;
+        var r = c.getBoundingClientRect();
+        c.style.setProperty("--mx", (e.clientX - r.left).toFixed(0) + "px");
+        c.style.setProperty("--my", (e.clientY - r.top).toFixed(0) + "px");
+      }, { passive: true });
+    });
   }
 
   /* Copy buttons with "Copied" feedback announced to screen readers. */
