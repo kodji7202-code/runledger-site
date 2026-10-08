@@ -223,21 +223,22 @@ html:not(.js) .hdr__panel { display: flex; }
 .hero__fine { font: 400 13px/1.4 var(--mono); color: var(--fg-2); }
 
 /* Receipt */
-.receipt { width: 100%; max-width: 500px; justify-self: end; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--raise); box-shadow: var(--shadow); }
+.receipt { position: relative; isolation: isolate; width: 100%; max-width: 500px; justify-self: end; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--raise); box-shadow: var(--shadow); }
 .receipt__bar { display: flex; align-items: center; gap: 12px; padding: 10px 12px 10px 16px; border-bottom: 1px solid var(--line); background: var(--soft); }
 .dots { display: flex; gap: 6px; }
 .dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line-2); }
 .receipt__cap { flex: 1; min-width: 0; font-size: 13px; color: var(--fg-2); }
 .replay { min-height: 36px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 999px; background: transparent; color: var(--fg-2); font: 500 13px/1 var(--sans); cursor: pointer; transition: background-color .2s var(--ease), color .2s var(--ease); }
 .replay:hover { color: var(--fg); background: var(--hover); }
-.receipt__body { display: grid; gap: 14px; padding: 18px 20px 20px; font: 400 13.5px/1.6 var(--mono); overflow-wrap: anywhere; }
+.receipt__body { position: relative; display: grid; gap: 14px; padding: 18px 20px 20px; font: 400 13.5px/1.6 var(--mono); overflow-wrap: anywhere; }
 .rl { position: relative; isolation: isolate; }
 .rl::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--amber); opacity: 0; pointer-events: none; }
 .rl--red::before { background: var(--red); }
 .rl.is-pulse::before { animation: pulse .9s var(--ease) 1 both; }
 @keyframes pulse { 0% { opacity: 0; } 35% { opacity: .22; } 100% { opacity: 0; } }
-.receipt.is-armed .rl:not(.is-on) { opacity: 0; transform: translateY(6px); }
-.receipt.is-armed .rl { transition: opacity .28s var(--ease), transform .4s var(--ease); }
+/* Highlight that sweeps the rows. It only ever tints; no content is hidden. */
+.r-scan { position: absolute; top: 0; left: 6px; right: 6px; z-index: -1; height: 0; border-left: 2px solid var(--accent); border-radius: 6px; background: var(--accent-wash); opacity: 0; pointer-events: none; transition: transform .32s var(--ease), height .32s var(--ease), opacity .25s var(--ease); }
+.r-scan.on { opacity: 1; }
 .r-title { font-weight: 500; letter-spacing: .06em; }
 .r-title span, .r-muted { color: var(--fg-2); }
 .r-rule { border-top: 1px dashed var(--line-2); }
@@ -319,8 +320,8 @@ html:not(.js) .hdr__panel { display: flex; }
 .g-cursor { position: absolute; right: 40px; bottom: 16px; width: 20px; height: 20px; color: var(--fg); opacity: 0; transform: translate(44px, 26px); transition: transform .7s var(--ease), opacity .3s; pointer-events: none; }
 .g-approval.is-cursor .g-cursor { opacity: 1; transform: none; }
 .g-approval.is-cursor.is-press .g-cursor { transform: scale(.86); }
-.term.is-armed .gi:not(.on) { opacity: 0; transform: translateY(8px); }
-.term.is-armed .g-banner:not(.on) { transform: translateX(-28px); }
+.term.playing .gi:not(.on) { opacity: 0; transform: translateY(8px); }
+.term.playing .g-banner:not(.on) { transform: translateX(-28px); }
 .gi { transition: opacity .4s var(--ease), transform .5s var(--ease); }
 .term .sr-only { position: absolute; }
 
@@ -335,10 +336,12 @@ html:not(.js) .hdr__panel { display: flex; }
 .roadmap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 15px; }
 .roadmap__t { font: 500 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--fg-2); }
 .roadmap ul { display: flex; flex-wrap: wrap; gap: 8px; }
-.roadmap li { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line-2); border-radius: 999px; }
+.roadmap li { display: inline-block; padding: 6px 12px; border: 1px solid var(--line-2); border-radius: 999px; line-height: 1.7; }
+.roadmap li .tag-s { margin-left: 6px; vertical-align: 1px; }
 .tag-s { padding: 2px 8px; border-radius: 999px; font: 500 12px/1.4 var(--mono); }
 .tag-planned { background: var(--amber-wash); color: var(--amber); }
-.tag-next { background: var(--accent-wash); color: var(--accent); }
+.tag-next { background: var(--soft); color: var(--fg-2); }
+.tag-beta { background: var(--accent-wash); color: var(--accent); }
 .strip { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 18px; font-size: 14px; color: var(--fg-2); }
 .strip span::before { content: "✓ "; color: var(--accent); }
 @media (max-width: 1000px) { .feat { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -362,15 +365,16 @@ html:not(.js) .hdr__panel { display: flex; }
 .vbars { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; height: 120px; align-items: stretch; }
 .vbars i { display: block; border-radius: 4px 4px 2px 2px; background: linear-gradient(to top, var(--accent), color-mix(in srgb, var(--accent) 40%, transparent)); transform-origin: 50% 100%; transform: scaleY(var(--v)); }
 .vbars-x { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; font-size: 11px; text-align: center; color: var(--fg-2); }
-.motion .dash:not(.in) .vbars i { transform: scaleY(0); }
-.motion .dash.in .vbars i { transition: transform .9s var(--ease); transition-delay: calc(var(--i) * 70ms + 150ms); }
+/* Bars grow only after the card is seen in a visible tab; the static bars are the default. */
+.dash.grow .vbars i { animation: bar-y .9s var(--ease) both; animation-delay: calc(var(--i) * 70ms + 120ms); }
+.dash.grow .hbar i { animation: bar-x .9s var(--ease) both; animation-delay: calc(var(--i) * 70ms + 120ms); }
+@keyframes bar-y { from { transform: scaleY(0); } to { transform: scaleY(var(--v)); } }
+@keyframes bar-x { from { transform: scaleX(0); } to { transform: scaleX(var(--v)); } }
 .hbars { display: grid; gap: 10px; font-size: 13px; }
 .hbars li { display: grid; grid-template-columns: 62px minmax(0, 1fr) 40px; align-items: center; gap: 10px; }
 .hbars b { font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
 .hbar { height: 8px; overflow: hidden; border-radius: 99px; background: var(--line); }
 .hbar i { display: block; height: 100%; border-radius: inherit; background: var(--accent); transform-origin: 0 50%; transform: scaleX(var(--v)); }
-.motion .dash:not(.in) .hbar i { transform: scaleX(0); }
-.motion .dash.in .hbar i { transition: transform .9s var(--ease); transition-delay: calc(var(--i) * 70ms + 150ms); }
 .pr { overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--raise); box-shadow: var(--shadow); }
 .pr__head { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--line); background: var(--soft); font-size: 14px; }
 .pr__av { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font: 600 11px/1 var(--mono); }
@@ -528,6 +532,7 @@ html:not(.js) .hdr__panel { display: flex; }
           <button class="replay" id="replay" type="button" hidden>Replay</button>
         </figcaption>
         <div class="receipt__body">
+          <span class="r-scan" aria-hidden="true"></span>
           <div>
             <p class="r-title">RUN RECEIPT <span>#rl-0042</span></p>
             <p class="r-muted">Claude Code · payments-service</p>
@@ -562,56 +567,67 @@ html:not(.js) .hdr__panel { display: flex; }
     </div>
   </section>
   <script>
-  /* Receipt: the full receipt is in the HTML. With motion on, it arms and types in once it is on screen. */
+  /* Receipt: the card is complete in the HTML and never hides content. With motion on, and only when the card is on
+     screen in a visible tab, a highlight sweeps the rows, flagged rows pulse once and the score counts up. Every step
+     is a setTimeout, and a fallback at 2.5 s sets the final state. */
   (function () {
     var rc = document.getElementById("receipt");
     if (!rc || !document.documentElement.classList.contains("motion")) return;
-    var lines = [].slice.call(rc.querySelectorAll(".rl")), ring = document.getElementById("ring"),
-        num = document.getElementById("risk-num"), btn = document.getElementById("replay");
-    var timers = [], raf = 0, target = 62, started = false;
-    function setScore(v) { num.textContent = String(Math.round(v)); ring.setAttribute("stroke-dashoffset", String(100 - v)); }
-    function countScore(ms) {
-      cancelAnimationFrame(raf);
-      var t0 = performance.now();
-      (function f(now) {
-        var t = Math.min(1, (now - t0) / ms);
-        setScore(target * (1 - Math.pow(1 - t, 3)));
-        if (t < 1) raf = requestAnimationFrame(f);
-      })(t0);
+    var body = rc.querySelector(".receipt__body"), scan = rc.querySelector(".r-scan"),
+        rows = [].slice.call(rc.querySelectorAll(".r-steps li")),
+        score = rc.querySelector(".r-score"), foot = rc.querySelector(".r-foot"),
+        ring = document.getElementById("ring"), num = document.getElementById("risk-num"),
+        btn = document.getElementById("replay");
+    var TARGET = 62, timers = [], started = false, inView = false;
+    function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+    function clearAll() { timers.forEach(clearTimeout); timers = []; }
+    function setScore(v) {
+      num.textContent = String(Math.round(v));
+      ring.setAttribute("stroke-dashoffset", String(100 - v));
     }
-    function clear() { timers.forEach(clearTimeout); timers = []; cancelAnimationFrame(raf); }
-    function play() {
-      clear();
-      rc.classList.add("is-armed");
-      lines.forEach(function (l) { l.classList.remove("is-on", "is-pulse"); });
+    function moveTo(el) {
+      var top = el.getBoundingClientRect().top - body.getBoundingClientRect().top;
+      scan.style.height = el.offsetHeight + "px";
+      scan.style.transform = "translate3d(0," + top.toFixed(1) + "px,0)";
+      scan.classList.add("on");
+    }
+    function countUp() {
+      var steps = TARGET, dur = 800;
       setScore(0);
-      var t = 0;
-      lines.forEach(function (l) {
-        t += +(l.getAttribute("data-wait") || 300);
-        timers.push(setTimeout(function () {
-          l.classList.add("is-on");
-          if (l.hasAttribute("data-flag")) l.classList.add("is-pulse");
-          if (l.hasAttribute("data-risk")) countScore(1100);
-        }, t));
+      for (var k = 1; k <= steps; k++) (function (n) { later(function () { setScore(n); }, dur * n / steps); })(k);
+    }
+    function finish() {
+      clearAll();
+      scan.classList.remove("on");
+      rows.forEach(function (r) { r.classList.remove("is-pulse"); });
+      setScore(TARGET);
+    }
+    function play() {
+      clearAll();
+      rows.forEach(function (r) { r.classList.remove("is-pulse"); });
+      rows.forEach(function (r, i) {
+        later(function () {
+          moveTo(r);
+          if (r.hasAttribute("data-flag")) { void r.offsetWidth; r.classList.add("is-pulse"); }
+        }, i * 210);
       });
+      later(function () { moveTo(score); countUp(); }, 1050);
+      later(function () { moveTo(foot); }, 1850);
+      later(function () { scan.classList.remove("on"); }, 2050);
+      later(finish, 2500);
     }
-    rc.classList.add("is-armed");
-    setScore(0);
+    function maybeStart() {
+      if (started || !inView || document.visibilityState !== "visible") return;
+      started = true;
+      play();
+    }
+    document.addEventListener("visibilitychange", maybeStart);
+    new IntersectionObserver(function (es) { inView = es[0].isIntersecting; maybeStart(); }, { threshold: 0.3 }).observe(rc);
     btn.hidden = false;
-    btn.addEventListener("click", play);
-    function go() { if (!started) { started = true; setTimeout(play, 250); } }
-    /* Any part on screen starts the typing now; a card below the fold waits until it is reached. */
-    var box = rc.getBoundingClientRect();
-    if (box.top < window.innerHeight && box.bottom > 0) {
-      go();
-    } else {
-      var io = new IntersectionObserver(function (es) {
-        if (es[0].isIntersecting) { io.disconnect(); go(); }
-      }, { threshold: 0 });
-      io.observe(rc);
-    }
+    btn.addEventListener("click", function () { started = true; play(); });
   })();
   </script>
+
 
   <!-- 2. How it works -->
   <section class="section" id="how" aria-labelledby="how-title">
@@ -671,7 +687,9 @@ html:not(.js) .hdr__panel { display: flex; }
     </div>
   </section>
   <script>
-  /* Guard demo: loops while on screen, pauses off screen and on request. Without motion the final frame stays. */
+  /* Guard demo: the final frame is the default. The sequence runs only while the demo is on screen in a visible tab,
+     and it returns to the final frame when it leaves the screen, is paused or the tab is hidden. Every step is a
+     setTimeout, and typed text is completed within 2.5 s. */
   (function () {
     var G = document.getElementById("guard-demo");
     if (!G || !document.documentElement.classList.contains("motion")) return;
@@ -679,26 +697,37 @@ html:not(.js) .hdr__panel { display: flex; }
     var c1 = $("g-c1"), c2 = $("g-c2"), o1 = $("g-o1"), o2 = $("g-o2"), ban = $("g-banner"),
         apv = $("g-approval"), done = $("g-done"), body = G.querySelector(".term__body"), pause = $("guard-pause"),
         typed1 = c1.querySelector(".typed"), typed2 = c2.querySelector(".typed"),
-        text1 = typed1.textContent, text2 = typed2.textContent,
+        full1 = typed1.textContent, full2 = typed2.textContent,
         lines = [].slice.call(G.querySelectorAll(".gi"));
-    var idx = 0, timer = 0, running = false, visible = false, userPaused = false;
+    var idx = 0, timers = [], running = false, inView = false, userPaused = false;
+    function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+    function clearAll() { timers.forEach(clearTimeout); timers = []; }
     function show(el) { el.classList.add("on"); }
     function typeOut(el, s, ms) {
       el.textContent = "";
       var step = ms / s.length;
-      for (var k = 1; k <= s.length; k++) (function (n) { setTimeout(function () { el.textContent = s.slice(0, n); }, step * n); })(k);
+      for (var k = 1; k <= s.length; k++) (function (n) { later(function () { el.textContent = s.slice(0, n); }, step * n); })(k);
+      later(function () { el.textContent = s; }, ms + 60);
     }
     function reset() {
       lines.forEach(function (l) { l.classList.remove("on"); });
       apv.classList.remove("is-cursor", "is-press", "is-approved");
       typed1.textContent = ""; typed2.textContent = "";
     }
+    function showFinal() {
+      G.classList.remove("playing");
+      lines.forEach(function (l) { show(l); });
+      apv.classList.remove("is-cursor", "is-press");
+      apv.classList.add("is-approved");
+      typed1.textContent = full1; typed2.textContent = full2;
+      body.classList.remove("is-out");
+    }
     var steps = [
-      function () { show(c1); typeOut(typed1, text1, 800); return 1000; },
+      function () { show(c1); typeOut(typed1, full1, 800); return 1000; },
       function () { show(o1); return 700; },
       function () { show(ban); return 2400; },
       function () { show(o2); return 500; },
-      function () { show(c2); typeOut(typed2, text2, 600); return 900; },
+      function () { show(c2); typeOut(typed2, full2, 600); return 900; },
       function () { show(apv); return 1500; },
       function () { apv.classList.add("is-cursor"); return 900; },
       function () { apv.classList.add("is-press"); return 240; },
@@ -708,25 +737,38 @@ html:not(.js) .hdr__panel { display: flex; }
       function () { reset(); body.classList.remove("is-out"); idx = 0; return 400; }
     ];
     function tick() {
-      timer = 0;
       if (!running) return;
       var fn = steps[idx++];
-      timer = setTimeout(tick, fn());
+      later(tick, fn());
     }
-    function start() { if (!running) { running = true; tick(); } }
-    function stop() { running = false; clearTimeout(timer); timer = 0; }
-    function sync() { if (visible && !userPaused) start(); else stop(); }
-    G.classList.add("is-armed");
-    reset();
+    function start() {
+      if (running) return;
+      running = true;
+      G.classList.add("playing");
+      reset();
+      idx = 0;
+      tick();
+    }
+    function stop() {
+      running = false;
+      clearAll();
+      showFinal();
+    }
+    function sync() {
+      if (inView && !userPaused && document.visibilityState === "visible") start();
+      else stop();
+    }
     pause.hidden = false;
     pause.addEventListener("click", function () {
       userPaused = !userPaused;
       pause.textContent = userPaused ? "Play" : "Pause";
       sync();
     });
-    new IntersectionObserver(function (es) { visible = es[0].isIntersecting; sync(); }, { threshold: 0.35 }).observe(G);
+    document.addEventListener("visibilitychange", sync);
+    new IntersectionObserver(function (es) { inView = es[0].isIntersecting; sync(); }, { threshold: 0.35 }).observe(G);
   })();
   </script>
+
 
   <!-- 4. Features -->
   <section class="section" id="features" aria-labelledby="features-title">
@@ -781,9 +823,10 @@ html:not(.js) .hdr__panel { display: flex; }
       <div class="roadmap rv">
         <p class="roadmap__t">Roadmap</p>
         <ul>
-          <li>Rollback <span class="tag-s tag-planned">Planned</span></li>
-          <li>MCP <span class="tag-s tag-next">Next</span></li>
-          <li>Codex, Cursor, Aider <span class="tag-s tag-next">Next</span></li>
+          <li>Codex CLI · Aider: <span class="tag-s tag-beta">Beta</span></li>
+          <li>Cursor: <span class="tag-s tag-next">Next</span></li>
+          <li>MCP: <span class="tag-s tag-next">Next</span></li>
+          <li>Rollback: <span class="tag-s tag-planned">Planned</span></li>
         </ul>
       </div>
       <p class="strip rv"><span>Open-source CLI</span><span>No dependencies</span><span>Works offline</span></p>
@@ -947,7 +990,7 @@ html:not(.js) .hdr__panel { display: flex; }
         </details>
         <details>
           <summary>Which agents does it support?</summary>
-          <div class="faq__a"><p>Claude Code today. Codex, Cursor and Aider are next.</p></div>
+          <div class="faq__a"><p>Claude Code today. Codex CLI and Aider are in beta, and any agent can use the open RunLedger JSON format.</p></div>
         </details>
         <details>
           <summary>How is cost computed?</summary>
@@ -1086,7 +1129,8 @@ html:not(.js) .hdr__panel { display: flex; }
   window.addEventListener("resize", queue, { passive: true });
   onScroll();
 
-  /* Scroll reveals with a 60ms stagger, and count-ups and bar growth when revealed. */
+  /* Scroll reveals (60 ms stagger). Counters and bars start only when their card is on screen in a visible tab.
+     The static values are the default; a setTimeout fallback sets the final values within 2.5 s. */
   $$("[data-stagger]").forEach(function (g) {
     $$(".rv", g).forEach(function (el, i) { el.style.setProperty("--d", Math.min(i, 6) * 60 + "ms"); });
   });
@@ -1094,24 +1138,28 @@ html:not(.js) .hdr__panel { display: flex; }
     var dec = +(el.getAttribute("data-dec") || 0), pre = el.getAttribute("data-prefix") || "";
     return pre + v.toLocaleString("en-US", { minimumFractionDigits: dec, maximumFractionDigits: dec });
   }
-  function countUp(el) {
-    var end = +el.getAttribute("data-count"), t0 = performance.now(), dur = 1100;
-    (function f(now) {
-      var t = Math.min(1, (now - t0) / dur);
-      el.textContent = fmt(end * ease(t), el);
-      if (t < 1) requestAnimationFrame(f);
-    })(t0);
+  function runCard(el) {
+    if (document.visibilityState !== "visible") return;
+    el.classList.add("grow");
+    setTimeout(function () { el.classList.remove("grow"); }, 2500);
+    $$("[data-count]", el).forEach(function (n) {
+      var end = +n.getAttribute("data-count"), steps = 24, dur = 1100;
+      n.textContent = fmt(0, n);
+      for (var k = 1; k <= steps; k++) (function (s) {
+        setTimeout(function () { n.textContent = fmt(end * ease(s / steps), n); }, dur * s / steps);
+      })(k);
+      setTimeout(function () { n.textContent = fmt(end, n); }, 2500);
+    });
   }
   var revealEls = $$(".rv");
-  if (motion) {
-    $$("[data-count]").forEach(function (el) { el.textContent = fmt(0, el); });
+  if (motion && document.visibilityState === "visible") {
     var rio = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
         var el = e.target;
         el.classList.add("in");
         rio.unobserve(el);
-        $$("[data-count]", el).forEach(countUp);
+        runCard(el);
         setTimeout(function () { el.style.removeProperty("--d"); }, 1400);
       });
     }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
