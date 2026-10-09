@@ -29,8 +29,8 @@
   <div class="wrap">
     <p class="eyebrow">Legal</p>
     <h1>Privacy policy</h1>
-    <p class="meta">Last updated: 8 October 2026</p>
-    <p class="lede">This policy explains what personal data the website runledger.site collects, why, and what you can do about it. It does not cover the RunLedger software itself: the CLI and the self-hosted team server run on your own machines and send no telemetry to us.</p>
+    <p class="meta">Last updated: 10 October 2026</p>
+    <p class="lede">This policy explains what personal data the website runledger.site collects, why, and what you can do about it. This page covers the public website, not any future hosted Team service. The open-source CLI and self-hosted team server can run on infrastructure you control without product telemetry.</p>
 
     <h2>Who is responsible</h2>
     <p>The controller for this website is <strong>Claudiu Cojocaru</strong>, a natural person based in Constanța, Romania, who builds RunLedger. You can reach me at <a href="mailto:hello@runledger.site">hello@runledger.site</a> about anything in this policy.</p>
@@ -73,7 +73,7 @@
     <p>You also have the right to complain to a data protection authority. In Romania this is the <a href="https://www.dataprotection.ro/">Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal (ANSPDCP)</a>. You can also contact the authority where you live or work.</p>
 
     <h2>The RunLedger software</h2>
-    <p>The open-source CLI, the guard and the team server process your agent sessions on machines you control. RunLedger has no telemetry. Data leaves your machine only when you ask for it: pushing runs to a team server you configure, Slack or webhook notifications you set, the GitHub Action, and the Anthropic API when you use <code>--ai</code> or <code>--review</code>. Details are in the <a href="https://github.com/kodji7202-code/runledger#privacy">privacy section of the README</a>. A separate policy will cover the hosted Team plan before it launches.</p>
+    <p>The open-source CLI, guard and self-hosted team server can process your agent sessions on systems you control and do not send product telemetry. Data can leave your machine when you choose to push a receipt to a team server, configure Slack or public HTTPS webhook notifications, run the GitHub Action, or opt in to <code>--ai</code> or <code>--review</code> (which send selected redacted session information to the Anthropic API). Receipts mask known secret patterns but should still be treated as potentially sensitive. Self-hosted servers store data in SQLite; operators can enable automatic retention using <code>RUNLEDGER_RETENTION_DAYS</code>. Details are in the <a href="https://github.com/kodji7202-code/runledger#privacy">privacy section of the README</a> and <a href="https://github.com/kodji7202-code/runledger/blob/main/docs/self-hosting.md">self-hosting guide</a>. A separate privacy policy will cover the hosted Team service before its launch.</p>
 
     <h2>Changes</h2>
     <p>If this policy changes, we will update the date at the top of this page. For a significant change that affects people on the early-access list, we will also email them.</p>
