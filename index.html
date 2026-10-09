@@ -783,7 +783,7 @@ html:not(.js) .hdr__panel { display: flex; }
       <div class="sec-head rv">
         <p class="eyebrow">Real-time Guard</p>
         <h2 id="guard-title">It stops risky commands before they run.</h2>
-        <p class="sec-sub">A Claude Code PreToolUse hook checks each action first. Dangerous commands are blocked. Sensitive ones ask first, either in Claude Code or as an approval request on your team server.</p>
+        <p class="sec-sub">A Claude Code PreToolUse hook checks each action first. Dangerous commands are blocked. Sensitive ones ask first, either in Claude Code or as an approval request on your team server. Team-server decisions require an admin using a different API key from the requester.</p>
       </div>
       <figure class="term rv" id="guard-demo" aria-labelledby="guard-cap">
         <figcaption class="term__bar">
@@ -808,13 +808,13 @@ html:not(.js) .hdr__panel { display: flex; }
             <p class="g-msg">Claude Code wants to run <code>sudo npm i -g x</code>, a global install with sudo.</p>
             <div class="g-foot">
               <div class="g-btns"><span class="g-btn">Deny</span><span class="g-btn g-btn--ok">Approve</span></div>
-              <p class="g-state">✓ Approved by @you on the dashboard</p>
+              <p class="g-state">✓ Approved by an independent admin on the dashboard</p>
             </div>
             <svg class="g-cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l13 8.5-5.6 1.2L15 20l-2.8 1.2L9.2 14 5 17z" fill="currentColor" stroke="var(--bg)" stroke-width="1.4" stroke-linejoin="round"/></svg>
           </div>
           <p class="tl tl--ok gi on" id="g-done">✓ added 1 package in 2s</p>
         </div>
-        <p class="sr-only">Simulated session. The agent runs rm -rf on the build folder and the home directory. RunLedger's guard blocks that command. The agent then runs a global npm install with sudo. RunLedger creates an approval request on the team dashboard and notifies Slack. The request is approved on the dashboard, and the install completes.</p>
+        <p class="sr-only">Simulated session. The agent runs rm -rf on the build folder and the home directory. RunLedger's guard blocks that command. The agent then runs a global npm install with sudo. RunLedger creates an approval request on the team dashboard and notifies Slack. A separate admin approves the request on the dashboard, and the install completes.</p>
       </figure>
       <div class="out rv" data-stagger>
         <figure class="term rv" aria-labelledby="out-guard-cap">
@@ -853,7 +853,7 @@ Receipt: sample-receipt.html · risk 80/100 (High)
   from the shell (.npmrc)</code></pre>
         </figure>
       </div>
-      <p class="out__note rv">Captured from RunLedger 0.3.0 on the sample session that ships with the repository. JSON trimmed to the decision fields, the last finding left out, paths shortened and long lines wrapped. <a href="/sample-receipt.html">Open the full HTML receipt</a>, exactly as the CLI wrote it.</p>
+      <p class="out__note rv">Captured from RunLedger 0.4.0 on the sample session that ships with the repository. JSON trimmed to the decision fields, the last finding left out, paths shortened and long lines wrapped. <a href="/sample-receipt.html">Open the full HTML receipt</a>, exactly as the CLI wrote it.</p>
     </div>
   </section>
   <script>
@@ -959,7 +959,7 @@ Receipt: sample-receipt.html · risk 80/100 (High)
               <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg></span>
               <h3>Run receipts</h3>
             </div>
-            <p>Every run as HTML, Markdown or JSON: files changed, commands and web requests, explained in plain language.</p>
+            <p>Every run as HTML, Markdown or JSON: files changed, commands and web requests, explained in plain language. Pushed receipts are immutable evidence; identical retries are safe.</p>
             <div class="mv" aria-hidden="true">
               <div class="mv__row mv__row--add" style="--k: 0"><span class="mv__path">src/payments/retry.ts</span><span class="mv__num"><span class="add">+11</span> <span class="rem">−1</span></span></div>
               <div class="mv__row mv__row--add" style="--k: 1"><span class="mv__path">tests/payments/retry.spec.ts</span><span class="mv__pill mv__pill--allow">new</span></div>
@@ -1036,7 +1036,7 @@ Receipt: sample-receipt.html · risk 80/100 (High)
               <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
               <h3>Human approvals</h3>
             </div>
-            <p>Guard requests wait on the dashboard until a person approves or denies them. Slack and webhooks get notified.</p>
+            <p>Guard requests wait for an independent admin to approve or deny them. The requesting API key cannot decide its own request. Slack and public HTTPS webhooks can notify the team.</p>
           </li>
           <li class="card rv">
             <div class="card__top">
@@ -1212,9 +1212,10 @@ Receipt: sample-receipt.html · risk 80/100 (High)
           <ul class="ticks">
             <li>Everything in Free</li>
             <li>Hosted dashboard with HTTPS, backups and upgrades</li>
-            <li>Approvals with Slack and webhook notifications</li>
+            <li>Separate-admin approvals with Slack and secure webhook notifications</li>
             <li>Budgets and alerts</li>
             <li>90-day history</li>
+            <li>Seats counted by authenticated API keys active in the last 30 days</li>
           </ul>
           <a class="btn btn--primary btn--block" href="#early-access">Request early access</a>
         </article>
@@ -1232,7 +1233,7 @@ Receipt: sample-receipt.html · risk 80/100 (High)
           <a class="btn btn--block" href="mailto:hello@runledger.site?subject=RunLedger%20Enterprise">Talk to us</a>
         </article>
       </div>
-      <p class="fine price-note">Prices in USD. The hosted plans are not on sale yet, and pricing may change before general availability.</p>
+      <p class="fine price-note">Prices in USD. Hosted plans are not on sale yet, and pricing may change before general availability. Assign a separate API key to each developer: a billed seat is counted by the key that pushes a run, not the editable developer label. Shared keys cannot identify individual people.</p>
     </div>
   </section>
 
@@ -1277,8 +1278,20 @@ Receipt: sample-receipt.html · risk 80/100 (High)
           <div class="faq__a"><p>From public Claude API list prices, applied to the token counts recorded for each step. It is an estimate, not an invoice. On a subscription you are not billed per token, so read it as what the run would cost on the API.</p></div>
         </details>
         <details>
+          <summary>Who can approve a risky agent action?</summary>
+          <div class="faq__a"><p>On the team server, a member or admin can request approval. Only an admin using a <strong>different authenticated API key</strong> from the requester can approve or deny it. The submitted display name is not proof of identity. Old pending requests without verified requester identity must be submitted again. Use a separate key for each person.</p></div>
+        </details>
+        <details>
+          <summary>How are hosted developer seats counted?</summary>
+          <div class="faq__a"><p>A billed seat is associated with an authenticated API key that pushed a run within the last 30 days, not with the editable <code>user</code> name in a receipt. Give each developer a separate key. New keys cannot push when all seats are occupied; add capacity in the billing portal. Recovery keys can reuse an already-occupied admin seat without rewriting historical runs.</p></div>
+        </details>
+        <details>
+          <summary>Can I change a receipt after pushing it?</summary>
+          <div class="faq__a"><p>Team-server receipts are immutable. Retrying the same receipt is idempotent, but pushing different content under the same team and session ID returns <code>409 run_conflict</code>. A changed run needs a new session ID. The original receipt stays in the audit trail.</p></div>
+        </details>
+        <details>
           <summary>Where does team data live?</summary>
-          <div class="faq__a"><p>On the server you choose. The self-hosted team server stores pushed receipts in one SQLite file on your own machine or cloud, and keeps them until you delete them. For the hosted Team plan, we will publish where data is stored and for how long before it launches.</p></div>
+          <div class="faq__a"><p>On the server you choose. The self-hosted team server stores pushed receipts in SQLite on infrastructure you control. By default, records remain until you delete them; you can configure <code>RUNLEDGER_RETENTION_DAYS</code> to delete older runs, approvals and audit events automatically. The hosted Team plan advertises 90-day history; its data-location details and separate privacy policy will be published before launch.</p></div>
         </details>
         <details>
           <summary>How is this different from LLM tracing tools?</summary>
