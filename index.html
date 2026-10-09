@@ -32,7 +32,7 @@
       "url": "https://runledger.site/",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Linux, macOS, Windows",
-      "softwareVersion": "0.2.0",
+      "softwareVersion": "0.3.0",
       "license": "https://www.apache.org/licenses/LICENSE-2.0",
       "codeRepository": "https://github.com/kodji7202-code/runledger",
       "downloadUrl": "https://pypi.org/project/runledger-ai/",
@@ -853,7 +853,7 @@ Receipt: sample-receipt.html · risk 80/100 (High)
   from the shell (.npmrc)</code></pre>
         </figure>
       </div>
-      <p class="out__note rv">Captured from RunLedger 0.2.0 on the sample session that ships with the repository. JSON trimmed to the decision fields, the last finding left out, paths shortened and long lines wrapped. <a href="/sample-receipt.html">Open the full HTML receipt</a>, exactly as the CLI wrote it.</p>
+      <p class="out__note rv">Captured from RunLedger 0.3.0 on the sample session that ships with the repository. JSON trimmed to the decision fields, the last finding left out, paths shortened and long lines wrapped. <a href="/sample-receipt.html">Open the full HTML receipt</a>, exactly as the CLI wrote it.</p>
     </div>
   </section>
   <script>
@@ -1250,7 +1250,7 @@ Receipt: sample-receipt.html · risk 80/100 (High)
         </details>
         <details>
           <summary>What exactly does a receipt record?</summary>
-          <div class="faq__a"><p>The first prompts, and for each step: the first line of the command (up to 120 characters), file paths and line counts, search patterns and URLs, the model, tokens and cost, plus the risk findings and their reasons. It does not contain file contents or command output, only test pass and fail counts. Receipts are not redacted, so a token typed into a command appears in them. The guard writes its decisions to <code>.runledger/guard.log</code> in the project. Add <code>.runledger/</code> to your <code>.gitignore</code>.</p></div>
+          <div class="faq__a"><p>The first prompts, and for each step: the first line of the command (up to 120 characters), file paths and line counts, search patterns and URLs, the model, tokens and cost, plus the risk findings and their reasons. It does not contain file contents or command output, only test pass and fail counts. Known secret formats (API keys, tokens, passwords in <code>KEY=…</code> assignments, flags and URLs) are masked as <code>[REDACTED]</code>. Masking is pattern-based, so treat a receipt like the session it came from. The guard writes its decisions to <code>.runledger/guard.log</code> in the project. Add <code>.runledger/</code> to your <code>.gitignore</code>.</p></div>
         </details>
         <details>
           <summary>Which agents and systems does it support?</summary>
@@ -1266,7 +1266,7 @@ Receipt: sample-receipt.html · risk 80/100 (High)
         </details>
         <details>
           <summary>How do I turn the guard off?</summary>
-          <div class="faq__a"><p>Remove the <code>runledger guard</code> entry under <code>hooks.PreToolUse</code> in <code>.claude/settings.json</code> (or <code>~/.claude/settings.json</code> if you installed it with <code>--global</code>). You can also restore <code>settings.json.bak</code>, the copy the installer saved before its last change. To remove the CLI, run <code>pip uninstall runledger-ai</code>.</p></div>
+          <div class="faq__a"><p>Run <code>runledger guard uninstall</code> in the project, or <code>runledger guard uninstall --global</code> if you installed it with <code>--global</code>. It removes only the guard hook from <code>.claude/settings.json</code> and saves the previous file as <code>settings.json.bak</code>. To remove the CLI, run <code>pip uninstall runledger-ai</code>.</p></div>
         </details>
         <details>
           <summary>Will the guard slow my agent?</summary>
