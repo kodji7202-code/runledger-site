@@ -4,20 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RunLedger: the black box recorder for AI coding agents</title>
-<meta name="description" content="Open-source black box recorder for AI coding agents: a receipt for every run with files, commands, models and a risk score, plus a guard that blocks risky commands.">
+<meta name="description" content="Open-source black box recorder for AI coding agents: receipts, risk score, cost and a real-time guard for Claude Code, Codex CLI, Factory Droid and Aider.">
 <link rel="canonical" href="https://runledger.site/">
 <meta name="theme-color" content="#07080a">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://runledger.site/">
 <meta property="og:title" content="RunLedger: the black box recorder for AI coding agents">
-<meta property="og:description" content="A receipt for every agent run and a guard that blocks risky commands before they run. Open source, local first.">
+<meta property="og:description" content="A receipt for every agent run and a guard that blocks risky commands before they run, for Claude Code, Codex CLI, Factory Droid and Aider. Open source, local first.">
 <meta property="og:image" content="https://runledger.site/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="RunLedger: every agent run, on the record.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="RunLedger: the black box recorder for AI coding agents">
-<meta name="twitter:description" content="A receipt for every agent run and a guard that blocks risky commands before they run. Open source, local first.">
+<meta name="twitter:description" content="A receipt for every agent run and a guard that blocks risky commands before they run, for Claude Code, Codex CLI, Factory Droid and Aider. Open source, local first.">
 <meta name="twitter:image" content="https://runledger.site/og-image.png">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -32,7 +32,7 @@
       "url": "https://runledger.site/",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Linux, macOS, Windows",
-      "softwareVersion": "0.6.0",
+      "softwareVersion": "0.6.1",
       "isAccessibleForFree": true,
       "license": "https://www.apache.org/licenses/LICENSE-2.0",
       "codeRepository": "https://github.com/kodji7202-code/runledger",
@@ -362,7 +362,7 @@
     <span class="k">runs-on:</span> ubuntu-latest
     <span class="k">steps:</span>
       - <span class="k">uses:</span> actions/checkout@v4
-      - <span class="k">uses:</span> kodji7202-code/runledger@v0.6.0
+      - <span class="k">uses:</span> kodji7202-code/runledger@v0.6.1
         <span class="k">with:</span>
           <span class="k">fail-on:</span> "60"  <span class="c"># fail at 60 or above</span></pre>
         <p class="hint" style="margin-top:14px">Commit the sessions you want reviewed to <code>.runledger/sessions/</code>. Review them first: a session file can contain secrets. <a class="link" href="https://github.com/kodji7202-code/runledger/blob/main/docs/github.md">Action docs</a></p>
@@ -419,7 +419,7 @@
       <a href="https://github.com/kodji7202-code/runledger/blob/main/CONTRIBUTING.md">Contribute <span>setup, tests, code rules</span></a>
       <a href="https://github.com/kodji7202-code/runledger/issues">Issues <span>bugs and ideas</span></a>
       <a href="https://github.com/kodji7202-code/runledger/tree/main/docs">Documentation <span>quickstart to API</span></a>
-      <a href="https://github.com/kodji7202-code/runledger/blob/main/CHANGELOG.md">Changelog <span>0.6.0</span></a>
+      <a href="https://github.com/kodji7202-code/runledger/blob/main/CHANGELOG.md">Changelog <span>0.6.1</span></a>
       <a href="https://pypi.org/project/runledger-ai/">PyPI <span>runledger-ai</span></a>
     </nav>
   </div>
@@ -478,7 +478,7 @@
       <nav aria-label="Project"><h4>Project</h4><ul><li><a href="https://github.com/kodji7202-code/runledger">GitHub</a></li><li><a href="https://pypi.org/project/runledger-ai/">PyPI</a></li><li><a href="https://github.com/kodji7202-code/runledger/tree/main/docs">Docs</a></li></ul></nav>
       <nav aria-label="Legal"><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="mailto:hello@runledger.site">hello@runledger.site</a></li></ul></nav>
     </div>
-    <p class="ftr__meta">&copy; 2026 RunLedger &middot; Apache-2.0 &middot; Version 0.6.0</p>
+    <p class="ftr__meta">&copy; 2026 RunLedger &middot; Apache-2.0 &middot; Version 0.6.1</p>
     <div class="ftr__big" aria-hidden="true">RunLedger</div>
   </div>
 </footer>

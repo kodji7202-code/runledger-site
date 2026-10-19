@@ -28,7 +28,7 @@ python -m http.server 8000
 
 ## Regenerate the sample receipt
 
-This page's example is actual CLI output from the fixture in the **RunLedger 0.5.0**
+This page's example is actual CLI output from the fixture in the **RunLedger 0.6.1**
 source tree, not a hand-edited mockup. Keep the sample's CLI version in sync with the
 version stated in `index.html`.
 
@@ -36,13 +36,14 @@ With both repositories checked out in sibling folders:
 
 ```bash
 cd ../runledger
-HOME=/home/dev python -m runledger receipt tests/fixtures/sample_session.jsonl -o ../runledger-site/sample-receipt.html
+HOME=/home/dev python -m runledger receipt tests/fixtures/sample_session.jsonl --safe -o ../runledger-site/sample-receipt.html
 ```
 
 `HOME=/home/dev` matches the fixture's home directory so it does not embed your
-own local home path in the published receipt. On Windows PowerShell set
-`$env:HOME = '/home/dev'` and `$env:USERPROFILE = '/home/dev'` before running
-the equivalent `python -m runledger receipt` command.
+own local home path in the published receipt, and `--safe` shortens home folders to
+`~` and masks e-mails. On Windows PowerShell set `$env:HOME = '/home/dev'` and
+`$env:USERPROFILE = '/home/dev'` before running the equivalent
+`python -m runledger receipt --safe` command.
 
 Review generated samples for personal file paths, API keys or other sensitive
 information **before committing**. Do not edit the generated receipt by hand.
