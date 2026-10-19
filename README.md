@@ -13,9 +13,11 @@ The product itself lives in [kodji7202-code/runledger](https://github.com/kodji7
 | `privacy.html`, `terms.html` | Privacy policy and terms of use. |
 | `404.html` | The page GitHub Pages shows for unknown addresses. |
 | `fonts/` | Self-hosted Geist and Geist Mono (SIL Open Font License, see `fonts/OFL.txt`). |
-| `favicon.svg`, `apple-touch-icon.png`, `og-image.png` | Icons and the social sharing image. |
+| `favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, `og-image.png` | Icons and the social sharing image. |
 | `robots.txt`, `sitemap.xml` | Search engine files. Update `lastmod` in the sitemap when a page changes. |
 | `CNAME` | The custom domain for GitHub Pages. |
+
+`favicon.ico` must stay at the site root: `sample-receipt.html` declares no icon link, so browsers fall back to `/favicon.ico` for it, and a missing file fails the live-site check with a 404.
 
 ## Preview locally
 
