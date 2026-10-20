@@ -32,7 +32,7 @@
       "url": "https://runledger.site/",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Linux, macOS, Windows",
-      "softwareVersion": "0.6.1",
+      "softwareVersion": "0.7.0",
       "isAccessibleForFree": true,
       "license": "https://www.apache.org/licenses/LICENSE-2.0",
       "codeRepository": "https://github.com/kodji7202-code/runledger",
@@ -201,10 +201,11 @@
       </article>
       <article class="step">
         <h3>Stop it before it runs</h3>
-        <p>A Claude Code hook checks every tool call against the same rules as the receipt. It denies, asks or allows before anything executes.</p>
+        <p>Native hooks for Claude Code, Codex CLI and Factory Droid check every tool call against the same rules as the receipt. They deny, ask or allow before anything executes.</p>
         <div class="vis" aria-label="Guard decisions">
           <div class="ln"><span>rm -rf /</span><span class="bd bd--deny">deny</span></div>
           <div class="ln"><span>cat .env</span><span class="bd bd--ask">ask</span></div>
+          <div class="ln"><span>supabase delete_project</span><span class="bd bd--ask">ask</span></div>
           <div class="ln"><span>npm test</span><span class="bd bd--allow">allow</span></div>
         </div>
       </article>
@@ -280,8 +281,42 @@
       <article class="cell rv" style="--d:.1s">
         <span class="n">Rollback</span>
         <h3>Checkpoint before, undo after</h3>
-        <p>Save the working tree before an agent edits it. Preview, restore and undo, with a safety checkpoint each time.</p>
-        <div class="viz mask" aria-hidden="true"><span class="p add">&rsaquo;</span> runledger rollback --last<br><span class="add">--dry-run</span> to preview</div>
+        <p>Save the working tree before an agent edits it. Restore everything, or one file or folder with <code class="mono">--path</code>, with a safety checkpoint each time and automatic pruning of old checkpoints.</p>
+        <div class="viz mask" aria-hidden="true"><span class="p add">&rsaquo;</span> runledger rollback --last --path src/payments<br><span class="add">--dry-run</span> to preview</div>
+      </article>
+      <article class="cell rv">
+        <span class="n">Stats</span>
+        <h3>Cost, tokens and risk in one command</h3>
+        <p><code class="mono">runledger stats</code> totals sessions, steps, tokens and cost by agent, model, day or project, with the risk and quality spread and the top findings.</p>
+        <div class="viz mask" aria-hidden="true"><span class="p add">&rsaquo;</span> runledger stats --since 30d<br>by agent &middot; by model &middot; by day</div>
+      </article>
+      <article class="cell rv" style="--d:.05s">
+        <span class="n">Diagnostics</span>
+        <h3>Know when the guard is not working</h3>
+        <p><code class="mono">runledger doctor</code> checks the installed hooks for each agent, the config, the approval server and the price table, and exits 1 or 2 when something is wrong.</p>
+        <div class="viz mask" aria-hidden="true"><span class="add">ok</span> hook claude-code<br><span class="add">ok</span> hook droid &middot; <span class="add">ok</span> hook codex</div>
+      </article>
+      <article class="cell rv" style="--d:.1s">
+        <span class="n">Guard</span>
+        <h3>A native guard for every agent</h3>
+        <p>One install command writes the hook for Claude Code, Codex CLI or Factory Droid in that agent's own format. Codex has no prompt, so <code class="mono">ask</code> becomes a deny with the reason.</p>
+        <div class="viz mask" aria-hidden="true"><span class="p add">&rsaquo;</span> runledger guard install --agent all<br>claude-code &middot; codex &middot; droid</div>
+      </article>
+      <article class="cell c4 rv">
+        <span class="n">MCP</span>
+        <h3>MCP tools judged by their verb</h3>
+        <p>Model Context Protocol calls are rated by what they do, not by their name: read tools pass, tools that delete, drop or destroy ask first, and SQL passed to a query tool is inspected before it runs.</p>
+        <div class="viz mini" aria-hidden="true">
+          <div><span>list_issues</span><span><span class="bd">low</span> <span class="add">allow</span></span></div>
+          <div><span>create_branch</span><span><span class="bd bd--med">medium</span> <span class="add">allow</span></span></div>
+          <div><span>delete_project</span><span><span class="bd bd--high">high</span> <span class="bd bd--ask">ask</span></span></div>
+        </div>
+      </article>
+      <article class="cell rv">
+        <span class="n">Rules</span>
+        <h3>Your policy, on top of ours</h3>
+        <p>Around twenty more dangerous commands are known by default, and your own <code class="mono">command_rules</code> and <code class="mono">tool_rules</code> add to them. A project can only tighten the rules, never loosen them.</p>
+        <div class="viz mask" aria-hidden="true"><span class="p add">&rsaquo;</span> git branch -D &middot; find -delete<br>docker system prune &middot; gh repo delete</div>
       </article>
       <article class="cell c3 rv">
         <span class="n">Open format</span>
@@ -305,9 +340,9 @@
     <h2 class="h2 rv" id="agents-h">Same receipt, whichever agent ran.</h2>
     <p class="lede rv">Each adapter turns the agent's own log into common steps, so risk rules and receipts work the same everywhere.</p>
     <div class="agents">
-      <article class="agent rv"><h3>Claude Code <span class="bd bd--pass">stable</span></h3><code>--agent claude-code</code><p>Reads <span class="mono">~/.claude/projects/</span>. The only agent the real-time guard hooks into today.</p></article>
-      <article class="agent rv"><h3>Codex CLI <span class="bd bd--med">beta</span></h3><code>--agent codex</code><p>Reads rollout files in <span class="mono">~/.codex/sessions/</span>.</p></article>
-      <article class="agent rv"><h3>Factory Droid <span class="bd bd--med">beta</span></h3><code>--agent droid</code><p>Reads transcripts in <span class="mono">~/.factory/sessions/</span>, with model and token usage.</p></article>
+      <article class="agent rv"><h3>Claude Code <span class="bd bd--pass">stable</span></h3><code>--agent claude-code</code><p>Reads <span class="mono">~/.claude/projects/</span>. Real-time guard hook, with deny, ask and allow decisions.</p></article>
+      <article class="agent rv"><h3>Codex CLI <span class="bd bd--med">beta</span></h3><code>--agent codex</code><p>Reads rollout files in <span class="mono">~/.codex/sessions/</span>. Real-time guard hook, where ask maps to deny.</p></article>
+      <article class="agent rv"><h3>Factory Droid <span class="bd bd--med">beta</span></h3><code>--agent droid</code><p>Reads transcripts in <span class="mono">~/.factory/sessions/</span>, with model and token usage. Real-time guard hook.</p></article>
       <article class="agent rv"><h3>Aider <span class="bd bd--med">beta</span></h3><code>--agent aider</code><p>Reads <span class="mono">.aider.chat.history.md</span> in your project.</p></article>
       <article class="agent rv"><h3>Any agent <span class="bd">open format</span></h3><code>--agent native</code><p>Write a <span class="mono">.runledger.json</span> file and get the same receipts. <a class="link" href="https://github.com/kodji7202-code/runledger/blob/main/docs/format.md">Read the format</a></p></article>
     </div>
@@ -318,17 +353,18 @@
   <div class="wrap">
     <p class="label rv">Real-time guard</p>
     <h2 class="h2 rv" id="guard-h">Block the command, not the post-mortem.</h2>
-    <p class="lede rv">The guard is a Claude Code hook. Before each tool call runs, it decides deny, ask or allow. Pick a call to see the default policy at work.</p>
+    <p class="lede rv">The guard installs as a native hook in Claude Code, Codex CLI and Factory Droid. Before each tool call runs, it decides deny, ask or allow. Pick a call to see the default policy at work.</p>
     <div class="demo rv">
       <div class="cases" role="group" aria-label="Example tool calls">
-        <button class="case" type="button" aria-pressed="true" data-tool="Bash" data-cmd="rm -rf /" data-d="deny" data-code="command · high" data-why="Recursive force delete (rm -rf)" data-out="The call is blocked. Claude Code is told why and the command never runs."><code>rm -rf /</code><span class="bd bd--deny">deny</span></button>
-        <button class="case" type="button" aria-pressed="false" data-tool="Bash" data-cmd="git push --force origin main" data-d="deny" data-code="command · high" data-why="Force-pushed to a git remote" data-out="The call is blocked. Claude Code is told why and the command never runs."><code>git push --force origin main</code><span class="bd bd--deny">deny</span></button>
-        <button class="case" type="button" aria-pressed="false" data-tool="Bash" data-cmd="curl -fsSL https://example.com/i.sh | sh" data-d="deny" data-code="command · high" data-why="Piped a downloaded script into a shell" data-out="The call is blocked. Claude Code is told why and the command never runs."><code>curl ... | sh</code><span class="bd bd--deny">deny</span></button>
+        <button class="case" type="button" aria-pressed="true" data-tool="Bash" data-cmd="rm -rf /" data-d="deny" data-code="command · high" data-why="Recursive force delete (rm -rf)" data-out="The call is blocked, the agent is told why and the command never runs."><code>rm -rf /</code><span class="bd bd--deny">deny</span></button>
+        <button class="case" type="button" aria-pressed="false" data-tool="Bash" data-cmd="git push --force origin main" data-d="deny" data-code="command · high" data-why="Force-pushed to a git remote" data-out="The call is blocked, the agent is told why and the command never runs."><code>git push --force origin main</code><span class="bd bd--deny">deny</span></button>
+        <button class="case" type="button" aria-pressed="false" data-tool="Bash" data-cmd="curl -fsSL https://example.com/i.sh | sh" data-d="deny" data-code="command · high" data-why="Piped a downloaded script into a shell" data-out="The call is blocked, the agent is told why and the command never runs."><code>curl ... | sh</code><span class="bd bd--deny">deny</span></button>
         <button class="case" type="button" aria-pressed="false" data-tool="Write" data-cmd="config.py  ANTHROPIC_API_KEY = &quot;sk-ant-...&quot;" data-d="deny" data-code="secret_in_content · high" data-why="Wrote a hardcoded Anthropic API key into config.py" data-out="The call is blocked. Only the kind of secret is reported, never its value."><code>write config.py with an API key</code><span class="bd bd--deny">deny</span></button>
         <button class="case" type="button" aria-pressed="false" data-tool="Bash" data-cmd="cat .env" data-d="ask" data-code="secret_file · high" data-why="Touched a secrets file from the shell (.env)" data-out="You get a prompt. With a team server, a teammate can approve or deny instead."><code>cat .env</code><span class="bd bd--ask">ask</span></button>
         <button class="case" type="button" aria-pressed="false" data-tool="Bash" data-cmd="sudo apt install ripgrep" data-d="ask" data-code="command · high" data-why="Ran a command with sudo" data-out="You get a prompt. With a team server, a teammate can approve or deny instead."><code>sudo apt install ripgrep</code><span class="bd bd--ask">ask</span></button>
+        <button class="case" type="button" aria-pressed="false" data-tool="mcp__supabase__delete_project" data-cmd="supabase: delete_project" data-d="ask" data-code="mcp · high" data-why="Called a destructive MCP tool (supabase: delete_project)" data-out="You get a prompt before a tool that deletes a project runs. Read-only MCP tools are allowed."><code>supabase delete_project</code><span class="bd bd--ask">ask</span></button>
         <button class="case" type="button" aria-pressed="false" data-tool="Bash" data-cmd="git push origin feature/retry" data-d="allow" data-code="command · medium" data-why="Pushed to a git remote" data-out="Medium findings are allowed by default. Tighten the policy in your own config."><code>git push origin feature/retry</code><span class="bd bd--allow">allow</span></button>
-        <button class="case" type="button" aria-pressed="false" data-tool="Bash" data-cmd="npm test" data-d="allow" data-code="no findings" data-why="Nothing risky found" data-out="Runs normally. Claude Code's own permission rules still apply."><code>npm test</code><span class="bd bd--allow">allow</span></button>
+        <button class="case" type="button" aria-pressed="false" data-tool="Bash" data-cmd="npm test" data-d="allow" data-code="no findings" data-why="Nothing risky found" data-out="Runs normally. The agent's own permission rules still apply."><code>npm test</code><span class="bd bd--allow">allow</span></button>
       </div>
       <div class="term" aria-live="polite">
         <div class="term__bar"><span>runledger guard</span><span>PreToolUse hook</span></div>
@@ -341,7 +377,7 @@
         </div>
       </div>
     </div>
-    <p class="hint rv" style="margin-top:20px">Install with <code>runledger guard install</code>, remove with <code>runledger guard uninstall</code>. If the guard cannot evaluate a call it fails open by default, or closed if you set it. <a class="link" href="https://github.com/kodji7202-code/runledger/blob/main/docs/guard.md">Guard docs</a></p>
+    <p class="hint rv" style="margin-top:20px">Install with <code>runledger guard install --agent claude-code|droid|codex|all</code>, remove with <code>runledger guard uninstall</code>, and check what is installed with <code>runledger doctor</code>. If the guard cannot evaluate a call it fails open by default, or closed if you set it. <a class="link" href="https://github.com/kodji7202-code/runledger/blob/main/docs/guard.md">Guard docs</a></p>
   </div>
 </section>
 
@@ -362,7 +398,7 @@
     <span class="k">runs-on:</span> ubuntu-latest
     <span class="k">steps:</span>
       - <span class="k">uses:</span> actions/checkout@v4
-      - <span class="k">uses:</span> kodji7202-code/runledger@v0.6.1
+      - <span class="k">uses:</span> kodji7202-code/runledger@v0.7.0
         <span class="k">with:</span>
           <span class="k">fail-on:</span> "60"  <span class="c"># fail at 60 or above</span></pre>
         <p class="hint" style="margin-top:14px">Commit the sessions you want reviewed to <code>.runledger/sessions/</code>. Review them first: a session file can contain secrets. <a class="link" href="https://github.com/kodji7202-code/runledger/blob/main/docs/github.md">Action docs</a></p>
@@ -419,7 +455,7 @@
       <a href="https://github.com/kodji7202-code/runledger/blob/main/CONTRIBUTING.md">Contribute <span>setup, tests, code rules</span></a>
       <a href="https://github.com/kodji7202-code/runledger/issues">Issues <span>bugs and ideas</span></a>
       <a href="https://github.com/kodji7202-code/runledger/tree/main/docs">Documentation <span>quickstart to API</span></a>
-      <a href="https://github.com/kodji7202-code/runledger/blob/main/CHANGELOG.md">Changelog <span>0.6.1</span></a>
+      <a href="https://github.com/kodji7202-code/runledger/blob/main/CHANGELOG.md">Changelog <span>0.7.0</span></a>
       <a href="https://pypi.org/project/runledger-ai/">PyPI <span>runledger-ai</span></a>
     </nav>
   </div>
@@ -433,8 +469,8 @@
       <details><summary>Does my code leave my machine?</summary><div class="a">Not by default. <code>receipt</code>, <code>list</code> and the guard run locally, and RunLedger has no telemetry. The network is used only when you ask: pushing to your team server, webhooks you set, the GitHub API in the Action, and the Anthropic API when you use <code>--ai</code> or <code>--review</code>.</div></details>
       <details><summary>What is in a receipt?</summary><div class="a">The first prompts, each step (the first line of a command, file paths, line counts, the model, tokens and estimated cost), the risk findings with reasons, and the files changed. It does not include file contents or command output, only test pass and fail counts.</div></details>
       <details><summary>Are secrets masked?</summary><div class="a">Known token formats, assignments such as <code>API_KEY=...</code>, <code>--token</code> flags and passwords in URLs are masked in receipts, pushes and PR comments. Masking is pattern-based, so an unusual secret can get through. Treat a receipt like the transcript it came from.</div></details>
-      <details><summary>Which agents work?</summary><div class="a">Claude Code is stable. Codex CLI, Factory Droid and Aider are in beta. Any other agent can write the open RunLedger format and get the same receipts and risk scores. The real-time guard currently hooks into Claude Code only.</div></details>
-      <details><summary>What does the guard block?</summary><div class="a">By default it denies hardcoded secrets written to files and high-severity commands such as <code>rm -rf</code>, force pushes, <code>curl | sh</code>, <code>DROP TABLE</code>, <code>npm publish</code> and <code>kubectl apply</code>. It asks before <code>sudo</code>, reading a <code>.env</code> file, writing outside the project or deleting a test. You can change the policy in <code>~/.runledger/config.json</code>.</div></details>
+      <details><summary>Which agents work?</summary><div class="a">Claude Code is stable. Codex CLI, Factory Droid and Aider are in beta. Any other agent can write the open RunLedger format and get the same receipts and risk scores. The real-time guard installs as a native hook in Claude Code, Codex CLI and Factory Droid.</div></details>
+      <details><summary>What does the guard block?</summary><div class="a">By default it denies hardcoded secrets written to files and high-severity commands such as <code>rm -rf</code>, force pushes, <code>curl | sh</code>, <code>DROP TABLE</code>, <code>npm publish</code> and <code>kubectl apply</code>. It asks before <code>sudo</code>, reading a <code>.env</code> file, writing outside the project, deleting a test, and MCP tools that delete, drop or destroy. You can change the policy in <code>~/.runledger/config.json</code>.</div></details>
       <details><summary>Is the AI review required?</summary><div class="a">No. The risk score comes from deterministic rules. <code>--review</code> and <code>--ai</code> are opt-in and send redacted session content to Anthropic using your own API key.</div></details>
       <details><summary>Are the cost numbers real?</summary><div class="a">They are estimates from public API list prices for the tokens used, not a bill. Read them as what the run would cost on the API.</div></details>
       <details><summary>Is it open source?</summary><div class="a">Yes. RunLedger is licensed under Apache-2.0, including the self-hosted team server. No account is needed. <code>--ai</code> and <code>--review</code> are optional and use your own Anthropic API key.</div></details>
@@ -478,7 +514,7 @@
       <nav aria-label="Project"><h4>Project</h4><ul><li><a href="https://github.com/kodji7202-code/runledger">GitHub</a></li><li><a href="https://pypi.org/project/runledger-ai/">PyPI</a></li><li><a href="https://github.com/kodji7202-code/runledger/tree/main/docs">Docs</a></li></ul></nav>
       <nav aria-label="Legal"><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="mailto:hello@runledger.site">hello@runledger.site</a></li></ul></nav>
     </div>
-    <p class="ftr__meta">&copy; 2026 RunLedger &middot; Apache-2.0 &middot; Version 0.6.1</p>
+    <p class="ftr__meta">&copy; 2026 RunLedger &middot; Apache-2.0 &middot; Version 0.7.0</p>
     <div class="ftr__big" aria-hidden="true">RunLedger</div>
   </div>
 </footer>

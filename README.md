@@ -30,7 +30,7 @@ python -m http.server 8000
 
 ## Regenerate the sample receipt
 
-This page's example is actual CLI output from the fixture in the **RunLedger 0.6.1**
+This page's example is actual CLI output from the fixture in the **RunLedger 0.7.0**
 source tree, not a hand-edited mockup. Keep the sample's CLI version in sync with the
 version stated in `index.html`.
 
