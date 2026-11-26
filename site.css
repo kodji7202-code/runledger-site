@@ -76,7 +76,7 @@ main, footer { position: relative; z-index: 1; }
 .tog i:last-child { transform: translateY(4px); }
 .tog[aria-expanded="true"] i:first-child { transform: rotate(45deg); }
 .tog[aria-expanded="true"] i:last-child { transform: rotate(-45deg); }
-.js .nav { display: flex; flex-direction: column; position: fixed; inset: 61px 0 0; height: calc(100vh - 61px); height: calc(100dvh - 61px); z-index: 40; padding: 12px var(--pad) 32px; overflow-y: auto; background: var(--bg); visibility: hidden; opacity: 0; transform: translateY(-8px); transition: opacity .25s var(--ease), transform .25s var(--ease), visibility 0s .25s; }
+.js .nav { display: flex; flex-direction: column; position: fixed; inset: 61px 0 0; z-index: 40; padding: 12px var(--pad) 32px; overflow-y: auto; background: var(--bg); visibility: hidden; opacity: 0; transform: translateY(-8px); transition: opacity .25s var(--ease), transform .25s var(--ease), visibility 0s .25s; }
 .js .hdr.open .nav { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
 .nav a { display: flex; align-items: center; justify-content: space-between; min-height: 64px; border-bottom: 1px solid var(--line); font-size: clamp(1.5rem, 6vw, 2rem); letter-spacing: -.03em; text-decoration: none; }
 .nav a span { font: 400 12px/1 var(--mono); color: var(--fg-3); }
@@ -85,6 +85,10 @@ html:not(.js) .nav { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0 v
 html:not(.js) .nav a { min-height: 32px; font-size: 14px; border: 0; }
 html:not(.js) .tog { display: none; }
 body.lock { overflow: hidden; }
+
+@media (max-width: 959px) {
+  .js .nav { height: calc(100vh - 61px); height: calc(100dvh - 61px); }
+}
 
 /* Buttons + badges */
 .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 22px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent); color: #031018; font-weight: 600; font-size: 15.5px; text-decoration: none; cursor: pointer; transition: transform .25s var(--ease); }
