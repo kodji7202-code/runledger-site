@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RunLedger: the black box recorder for AI coding agents</title>
-<meta name="description" content="Open-source black box recorder for AI coding agents: receipts, risk score, cost and a real-time guard for Claude Code, Codex CLI, Factory Droid and Aider.">
+<title>RunLedger: every agent run, on the record</title>
+<meta name="description" content="Open-source black box recorder for AI coding agents: stable 1.0 receipts, risk and quality scores, cost, rollback and guard hooks for Claude Code, Codex CLI, Factory Droid and Aider.">
 <link rel="canonical" href="https://runledger.site/">
-<meta name="theme-color" content="#07080a">
+<meta name="theme-color" content="#030712">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://runledger.site/">
-<meta property="og:title" content="RunLedger: the black box recorder for AI coding agents">
-<meta property="og:description" content="A receipt for every agent run and a guard that blocks risky commands before they run, for Claude Code, Codex CLI, Factory Droid and Aider. Open source, local first.">
+<meta property="og:title" content="RunLedger: every agent run, on the record">
+<meta property="og:description" content="Every agent run on the record: receipts, cost, risk, rollback and guard hooks for Claude Code, Codex CLI, Factory Droid and Aider. Open source, local first.">
 <meta property="og:image" content="https://runledger.site/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="RunLedger: every agent run, on the record.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="RunLedger: the black box recorder for AI coding agents">
-<meta name="twitter:description" content="A receipt for every agent run and a guard that blocks risky commands before they run, for Claude Code, Codex CLI, Factory Droid and Aider. Open source, local first.">
+<meta name="twitter:title" content="RunLedger: every agent run, on the record">
+<meta name="twitter:description" content="Every agent run on the record: receipts, cost, risk, rollback and guard hooks for Claude Code, Codex CLI, Factory Droid and Aider. Open source, local first.">
 <meta name="twitter:image" content="https://runledger.site/og-image.png">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -28,11 +28,11 @@
     {
       "@type": "SoftwareApplication",
       "name": "RunLedger",
-      "description": "Open-source black box recorder for AI coding agents. Turns Claude Code, Codex CLI, Factory Droid and Aider sessions into receipts with a risk score, and blocks risky commands with a real-time guard.",
+      "description": "Open-source black box recorder for AI coding agents. Turns Claude Code, Codex CLI, Factory Droid and Aider sessions into receipts with risk and quality scores, cost, rollback and guard hooks for supported agents.",
       "url": "https://runledger.site/",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Linux, macOS, Windows",
-      "softwareVersion": "0.7.0",
+      "softwareVersion": "1.0.0",
       "isAccessibleForFree": true,
       "license": "https://www.apache.org/licenses/LICENSE-2.0",
       "codeRepository": "https://github.com/kodji7202-code/runledger",
@@ -72,7 +72,7 @@
 <header class="hdr">
   <div class="wrap hdr__in">
     <a class="brand" href="/" aria-label="RunLedger home">
-      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><path d="M10 10h12M10 15h12M10 20h7"/><circle cx="22" cy="21" r="2.2"/></svg>
+      <img class="mark" src="/favicon.svg" alt="" width="32" height="32">
       <span>RunLedger</span>
     </a>
     <button class="tog" type="button" aria-expanded="false" aria-controls="nav" aria-label="Open menu"><i></i><i></i></button>
@@ -81,6 +81,7 @@
       <a href="#features">Features</a>
       <a href="#agents">Agents</a>
       <a href="#guard">Guard</a>
+      <a href="#self-host">Team</a>
       <a href="#open-source">Open source</a>
       <a href="#faq">FAQ</a>
       <a class="btn nav__gh" href="https://github.com/kodji7202-code/runledger">Star on GitHub</a>
@@ -94,9 +95,9 @@
 <section class="hero" aria-labelledby="hero-h">
   <div class="wrap hero__grid">
     <div class="hero__copy">
-      <p class="rec"><i aria-hidden="true"></i>Recording every run</p>
-      <h1 class="h1" id="hero-h"><span class="w" style="--i:0"><span>The</span></span> <span class="w" style="--i:1"><span class="hl">black</span></span> <span class="w" style="--i:2"><span class="hl">box</span></span> <span class="w" style="--i:3"><span>recorder</span></span> <span class="w" style="--i:4"><span>for</span></span> <span class="w" style="--i:5"><span>AI</span></span> <span class="w" style="--i:6"><span>coding</span></span> <span class="w" style="--i:7"><span>agents.</span></span></h1>
-      <p class="sub rv" style="--d:.5s">A receipt for every run, and a guard that stops risky commands before they execute.</p>
+      <p class="rec"><i aria-hidden="true"></i>1.0 stable &middot; recording every run</p>
+      <h1 class="h1" id="hero-h"><span class="w" style="--i:0"><span>Every</span></span> <span class="w" style="--i:1"><span>agent</span></span> <span class="w" style="--i:2"><span>run.</span></span><br><span class="w" style="--i:3"><span class="hl">On</span></span> <span class="w" style="--i:4"><span class="hl">the</span></span> <span class="w" style="--i:5"><span class="hl">record.</span></span></h1>
+      <p class="sub rv" style="--d:.5s">Receipts for every coding-agent run, plus guard hooks that can deny or ask before risky commands execute.</p>
       <div class="cta rv" style="--d:.65s">
         <a class="btn" href="https://github.com/kodji7202-code/runledger">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 .6l2.2 4.7 5.1.7-3.7 3.6.9 5.1L8 12.2 3.5 14.7l.9-5.1L.7 6l5.1-.7z"/></svg>
@@ -115,7 +116,7 @@
       <ul class="facts rv" style="--d:.75s">
         <li>Apache-2.0</li>
         <li>Python 3.9+</li>
-        <li>No runtime dependencies</li>
+        <li>1.0.0 stable</li>
         <li>Local first, no telemetry</li>
       </ul>
     </div>
@@ -298,7 +299,7 @@
       </article>
       <article class="cell rv" style="--d:.1s">
         <span class="n">Guard</span>
-        <h3>A native guard for every agent</h3>
+        <h3>Native hooks for supported agents</h3>
         <p>One install command writes the hook for Claude Code, Codex CLI or Factory Droid in that agent's own format. Codex has no prompt, so <code class="mono">ask</code> becomes a deny with the reason.</p>
         <div class="viz mask" aria-hidden="true"><span class="p add">&rsaquo;</span> runledger guard install --agent all<br>claude-code &middot; codex &middot; droid</div>
       </article>
@@ -398,13 +399,13 @@
     <span class="k">runs-on:</span> ubuntu-latest
     <span class="k">steps:</span>
       - <span class="k">uses:</span> actions/checkout@v4
-      - <span class="k">uses:</span> kodji7202-code/runledger@v0.7.0
+      - <span class="k">uses:</span> kodji7202-code/runledger@v1.0.0
         <span class="k">with:</span>
           <span class="k">fail-on:</span> "60"  <span class="c"># fail at 60 or above</span></pre>
         <p class="hint" style="margin-top:14px">Commit the sessions you want reviewed to <code>.runledger/sessions/</code>. Review them first: a session file can contain secrets. <a class="link" href="https://github.com/kodji7202-code/runledger/blob/main/docs/github.md">Action docs</a></p>
       </div>
       <div class="pr rv" style="--d:.1s" role="img" aria-label="Example pull request comment from RunLedger showing a High risk of 80 and a failing check.">
-        <div class="pr__hd"><span class="av"><svg viewBox="0 0 32 32"><path d="M10 10h12M10 15h12M10 20h7" fill="none" stroke="#07080a" stroke-width="3" stroke-linecap="round"/></svg></span><b>RunLedger receipt</b><span>commented on this pull request</span></div>
+        <div class="pr__hd"><span class="av"><img src="/favicon.svg" alt=""></span><b>RunLedger receipt</b><span>commented on this pull request</span></div>
         <div class="pr__bd">
           <div class="pr__row"><span>Highest risk</span><span class="bd bd--high">high &middot; 80</span></div>
           <div class="pr__row"><span>Fix payment retry logic</span><span class="d">Sonnet 4.5 &middot; 10 steps</span><span class="bd bd--high">80</span></div>
@@ -422,13 +423,14 @@
     <div class="split" style="margin-top:0">
       <div class="rv">
         <h2 class="h2" id="host-h">A team server you run yourself.</h2>
-        <p class="lede">Developers push receipts, the team reads them in one dashboard. The server uses only the Python standard library and a single SQLite file, with a Docker Compose setup for HTTPS.</p>
+        <p class="lede">Developers push receipts, the team reads them in one dashboard. The server is an optional FastAPI service backed by a single SQLite file, with Docker images, Compose HTTPS, backups and operational runbooks.</p>
         <ul class="chips" aria-label="Team server features">
-          <li class="chip">Dashboard</li><li class="chip">API keys with roles</li><li class="chip">Audit log</li><li class="chip">Approvals</li><li class="chip">Slack and webhooks</li><li class="chip">Team budgets</li><li class="chip">Compliance exports</li><li class="chip">Retention and backups</li>
+          <li class="chip">Dashboard</li><li class="chip">API keys with roles</li><li class="chip">Audit log</li><li class="chip">Approvals</li><li class="chip">Slack and webhooks</li><li class="chip">Team budgets</li><li class="chip">Compliance exports</li><li class="chip">Retention and backups</li><li class="chip">OIDC SSO</li><li class="chip">SCIM provisioning</li><li class="chip">Signed images and SBOMs</li>
         </ul>
         <p class="hint" style="margin-top:20px"><a class="link" href="https://github.com/kodji7202-code/runledger/blob/main/docs/self-hosting.md">Self-hosting guide</a></p>
       </div>
-      <ol class="seq rv" style="--d:.1s" aria-label="Team server in five steps">
+      <ol class="seq rv" style="--d:.1s" aria-label="Team server in six steps">
+        <li><code>pip install 'runledger-ai[server]'<span class="d">install the optional server dependencies</span></code></li>
         <li><code>runledger team create myteam --db runledger.db<span class="d">create the team, prints its API key once</span></code></li>
         <li><code>runledger serve --db runledger.db<span class="d">start the server on 127.0.0.1:8787</span></code></li>
         <li><code>open http://127.0.0.1:8787/?key=YOUR_KEY<span class="d">sign in to the dashboard once</span></code></li>
@@ -446,7 +448,7 @@
     <p class="lede rv">The CLI, the guard, the Action and the team server are all open source. Read the code, run the tests, send a patch.</p>
     <div class="stats rv">
       <div class="stat"><b>Apache-2.0</b><span>License</span></div>
-      <div class="stat"><b>0</b><span>Runtime dependencies</span></div>
+      <div class="stat"><b>0</b><span>CLI runtime dependencies</span></div>
       <div class="stat"><b>0</b><span>Telemetry</span></div>
       <div class="stat"><b>3.9+</b><span>Python</span></div>
     </div>
@@ -455,7 +457,7 @@
       <a href="https://github.com/kodji7202-code/runledger/blob/main/CONTRIBUTING.md">Contribute <span>setup, tests, code rules</span></a>
       <a href="https://github.com/kodji7202-code/runledger/issues">Issues <span>bugs and ideas</span></a>
       <a href="https://github.com/kodji7202-code/runledger/tree/main/docs">Documentation <span>quickstart to API</span></a>
-      <a href="https://github.com/kodji7202-code/runledger/blob/main/CHANGELOG.md">Changelog <span>0.7.0</span></a>
+      <a href="https://github.com/kodji7202-code/runledger/blob/main/CHANGELOG.md">Changelog <span>1.0.0</span></a>
       <a href="https://pypi.org/project/runledger-ai/">PyPI <span>runledger-ai</span></a>
     </nav>
   </div>
@@ -507,14 +509,14 @@
   <div class="wrap">
     <div class="ftr__grid">
       <div>
-        <a class="brand" href="/" aria-label="RunLedger home"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><path d="M10 10h12M10 15h12M10 20h7"/><circle cx="22" cy="21" r="2.2"/></svg><span>RunLedger</span></a>
+        <a class="brand" href="/" aria-label="RunLedger home"><img class="mark" src="/favicon.svg" alt="" width="32" height="32"><span>RunLedger</span></a>
         <p class="hint" style="margin-top:12px;max-width:34ch">The black box recorder for AI coding agents.</p>
       </div>
-      <nav aria-label="Product"><h4>Product</h4><ul><li><a href="#how">How it works</a></li><li><a href="#guard">Guard</a></li><li><a href="/sample-receipt.html">Sample receipt</a></li></ul></nav>
+      <nav aria-label="Product"><h4>Product</h4><ul><li><a href="#how">How it works</a></li><li><a href="#guard">Guard</a></li><li><a href="#self-host">Team</a></li><li><a href="/sample-receipt.html">Sample receipt</a></li></ul></nav>
       <nav aria-label="Project"><h4>Project</h4><ul><li><a href="https://github.com/kodji7202-code/runledger">GitHub</a></li><li><a href="https://pypi.org/project/runledger-ai/">PyPI</a></li><li><a href="https://github.com/kodji7202-code/runledger/tree/main/docs">Docs</a></li></ul></nav>
       <nav aria-label="Legal"><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="mailto:hello@runledger.site">hello@runledger.site</a></li></ul></nav>
     </div>
-    <p class="ftr__meta">&copy; 2026 RunLedger &middot; Apache-2.0 &middot; Version 0.7.0</p>
+    <p class="ftr__meta">&copy; 2026 RunLedger &middot; Apache-2.0 &middot; Version 1.0.0</p>
     <div class="ftr__big" aria-hidden="true">RunLedger</div>
   </div>
 </footer>
