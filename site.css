@@ -76,7 +76,7 @@ main, footer { position: relative; z-index: 1; }
 .tog i:last-child { transform: translateY(4px); }
 .tog[aria-expanded="true"] i:first-child { transform: rotate(45deg); }
 .tog[aria-expanded="true"] i:last-child { transform: rotate(-45deg); }
-.js .nav { display: flex; flex-direction: column; position: fixed; inset: 61px 0 0; z-index: 40; padding: 12px var(--pad) 32px; overflow-y: auto; background: var(--bg); visibility: hidden; opacity: 0; transform: translateY(-8px); transition: opacity .25s var(--ease), transform .25s var(--ease), visibility 0s .25s; }
+.js .nav { display: flex; flex-direction: column; position: fixed; inset: 61px 0 0; height: calc(100vh - 61px); height: calc(100dvh - 61px); z-index: 40; padding: 12px var(--pad) 32px; overflow-y: auto; background: var(--bg); visibility: hidden; opacity: 0; transform: translateY(-8px); transition: opacity .25s var(--ease), transform .25s var(--ease), visibility 0s .25s; }
 .js .hdr.open .nav { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
 .nav a { display: flex; align-items: center; justify-content: space-between; min-height: 64px; border-bottom: 1px solid var(--line); font-size: clamp(1.5rem, 6vw, 2rem); letter-spacing: -.03em; text-decoration: none; }
 .nav a span { font: 400 12px/1 var(--mono); color: var(--fg-3); }
